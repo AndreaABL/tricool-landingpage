@@ -92,15 +92,14 @@ export default function LandingPage() {
                 className="fixed top-0 left-0 w-full z-50 bg-[#0b122b]/80 backdrop-blur-xl border-b border-white/10"
             >
                 <div className="max-w-7xl mx-auto px-6">
-                    <div className="navbar text-white">
+                    <div className="navbar w-full text-white px-6">
 
-                        {/* Left */}
-                        <div className="navbar-start">
+                        {/* ================= MOBILE NAVBAR ================= */}
+                        <div className="flex w-full items-center justify-between lg:hidden">
+
+                            {/* Menu button */}
                             <div className="dropdown">
-                                <label
-                                    tabIndex={0}
-                                    className="btn btn-ghost lg:hidden w-12 h-12 flex items-center justify-center"
-                                >
+                                <label tabIndex={0} className="btn btn-ghost p-2">
                                     <svg
                                         xmlns="http://www.w3.org/2000/svg"
                                         className="h-7 w-7"
@@ -119,64 +118,63 @@ export default function LandingPage() {
 
                                 <ul
                                     tabIndex={0}
-                                    initial={{ opacity: 0, scale: 0.95, y: -10 }}
-                                    animate={{ opacity: 1, scale: 1, y: 0 }}
-                                    transition={{ duration: 0.25, ease: "easeOut" }}
-                                    className="dropdown-content fixed left-1/2-translate-x-1/2top-20w-72 rounded-2xl bg-[#0b122b]/95 backdrop-blur-xl shadow-2xl border border-white/10 p-6 space-y-4 z-50"
+                                    className="dropdown-content fixed top-20 left-6 w-72 rounded-2xl
+        bg-[#0b122b]/95 backdrop-blur-xl shadow-2xl border border-white/10
+        p-6 space-y-4 z-50"
                                 >
-                                    <li><a href="#home" className="flex justify-center text-lg font-semibold py-3 rounded-xl text-white hover:bg-white/5 transition">Inicio</a></li>
-                                    <li><a href="#about" className="flex justify-center text-lg font-semibold py-3 rounded-xl text-white hover:bg-white/5 transition">Conócenos</a></li>
-                                    <li><a href="#disciplines" className="flex justify-center text-lg font-semibold py-3 rounded-xl text-white hover:bg-white/5 transition">Disciplinas</a></li>
-                                    <li><a href="#contact" className="flex justify-center text-lg font-semibold py-3 rounded-xl text-white hover:bg-white/5 transition">Contacto</a></li>
+                                    <li><a href="#home">Inicio</a></li>
+                                    <li><a href="#about">Conócenos</a></li>
+                                    <li><a href="#disciplines">Disciplinas</a></li>
+                                    <li><a href="#contact">Contacto</a></li>
                                 </ul>
                             </div>
-                            <motion.a
-                                href="#home"
-                                whileHover={{ scale: 1.04 }}
-                                className="flex items-center gap-3"
-                            >
-                                <img
-                                    src={logo} // or "/logo.png" if using public folder
-                                    alt="Tricool Logo"
-                                    className="
-      h-12 w-auto
-      brightness-110
-      drop-shadow-[0_0_10px_rgba(59,130,246,0.35)]
-    "
-                                />
 
-                                <span
-                                    className="
-      text-sm
-      font-semibold
-      tracking-widest
-      text-white/90
-    "
+                            {/* Mobile logo */}
+                            <a href="#home" className="flex items-center gap-2">
+                                <img src={logo} alt="Tricool Logo" className="h-9 w-auto
+    brightness-110
+    drop-shadow-[0_0_6px_rgba(56,189,248,0.45)]
+    drop-shadow-[0_0_14px_rgba(59,130,246,0.25)]
+    transition" />
+                            </a>
+                        </div>
+
+                        {/* ================= DESKTOP NAVBAR ================= */}
+                        <div className="hidden lg:flex w-full items-center">
+
+                            {/* LEFT — Brand */}
+                            <div className="navbar-start">
+                                <a href="#home" className="flex items-center gap-3">
+                                    <img src={logo} alt="Tricool Logo" className="h-9 w-auto
+    brightness-110
+    drop-shadow-[0_0_6px_rgba(56,189,248,0.45)]
+    drop-shadow-[0_0_14px_rgba(59,130,246,0.25)]
+    transition" />
+                                </a>
+                            </div>
+
+                            {/* CENTER — Menu */}
+                            <div className="navbar-center">
+                                <ul className="menu menu-horizontal gap-10 font-medium">
+                                    <li><a href="#home">Inicio</a></li>
+                                    <li><a href="#about">Conócenos</a></li>
+                                    <li><a href="#disciplines">Disciplinas</a></li>
+                                </ul>
+                            </div>
+
+                            {/* RIGHT — CTA */}
+                            <div className="navbar-end">
+                                <a
+                                    href="#contact"
+                                    className="px-7 py-2.5 rounded-2xl bg-blue-600
+        hover:bg-blue-500 font-semibold transition"
                                 >
-                                    TRICOOL
-                                </span>
-                            </motion.a>
+                                    Contacto
+                                </a>
+                            </div>
+
                         </div>
 
-                        {/* Center */}
-                        <div className="navbar-center hidden lg:flex">
-                            <ul className="menu menu-horizontal gap-6 font-medium">
-                                <li><a href="#home">Inicio</a></li>
-                                <li><a href="#about">Conócenos</a></li>
-                                <li><a href="#disciplines">Disciplinas</a></li>
-                            </ul>
-                        </div>
-
-                        {/* Right */}
-                        <div className="navbar-end hidden lg:flex">
-                            <motion.a
-                                href="#contact"
-                                whileHover={{ y: -1 }}
-                                whileTap={{ scale: 0.97 }}
-                                className="relative px-6 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-semibold shadow-sm shadow-blue-500/30 transition-all"
-                            >Contacto
-                            </motion.a>
-                        </div>
                     </div>
                 </div>
             </motion.nav>
@@ -203,7 +201,7 @@ export default function LandingPage() {
                         className="text-left max-w-xl"
                     >
                         <span className="uppercase text-xm tracking-widest text-blue-400 font-bold">
-                            Club de Triatlón
+                            Club Deportivo Tricool
                         </span>
 
                         <motion.h1
@@ -459,7 +457,7 @@ export default function LandingPage() {
             <section id="disciplines" className="bg-[#0b122b] py-6 text-white">
                 <div className="max-w-7xl mx-auto px-8">
                     <p className="text-center text-blue-400 uppercase tracking-widest mb-4 font-bold">
-                        Las tres pruebas
+                        Ramas Deportivas
                     </p>
 
                     <h2 className="text-center text-5xl md:text-6xl font-extrabold mb-20">
@@ -710,14 +708,13 @@ export default function LandingPage() {
                             src={logo} // or "/logo.png"
                             alt="Tricool Logo"
                             className="
-          h-10 w-auto
-          brightness-110
-          drop-shadow-[0_0_8px_rgba(59,130,246,0.25)]
+          h-9 w-auto
+    brightness-110
+    drop-shadow-[0_0_6px_rgba(56,189,248,0.45)]
+    drop-shadow-[0_0_14px_rgba(59,130,246,0.25)]
+    transition
         "
                         />
-                        <span className="text-xs tracking-widest text-white/80 font-semibold">
-                            TRICOOL
-                        </span>
                     </div>
 
                     {/* Copyright */}
