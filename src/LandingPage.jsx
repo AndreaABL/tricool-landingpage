@@ -37,7 +37,7 @@ export default function LandingPage() {
                 "template_todnffx",
                 {
                     name: formData.name,
-                    email: formData.email,
+                    reply_to: formData.email,
                     level: formData.level,
                     message: formData.message,
                 },
@@ -59,6 +59,24 @@ export default function LandingPage() {
             setLoading(false);
         }
     };
+    const sentence = {
+        hidden: { opacity: 1 },
+        visible: {
+            opacity: 1,
+            transition: {
+                staggerChildren: 0.04,
+            },
+        },
+    };
+
+    const letter = {
+        hidden: { opacity: 0, y: 20 },
+        visible: {
+            opacity: 1,
+            y: 0,
+            transition: { ease: "easeOut", duration: 0.4 },
+        },
+    };
 
     return (
         <div className="min-h-screen w-full bg-[#0b1220] flex flex-col overflow-x-hidden">
@@ -76,16 +94,50 @@ export default function LandingPage() {
                         {/* Left */}
                         <div className="navbar-start">
                             <div className="dropdown">
-                                <label tabIndex={0} className="btn btn-ghost lg:hidden">
-                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none"
-                                        viewBox="0 0 24 24" stroke="currentColor">
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"
-                                            d="M4 6h16M4 12h8m-8 6h16" />
+                                <label
+                                    tabIndex={0}
+                                    className="
+    btn btn-ghost lg:hidden
+    w-12 h-12
+    flex items-center justify-center
+  "
+                                >
+                                    <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        className="h-7 w-7"
+                                        fill="none"
+                                        viewBox="0 0 24 24"
+                                        stroke="currentColor"
+                                    >
+                                        <path
+                                            strokeLinecap="round"
+                                            strokeLinejoin="round"
+                                            strokeWidth="2"
+                                            d="M4 6h16M4 12h12m-12 6h16"
+                                        />
                                     </svg>
                                 </label>
+
                                 <ul
                                     tabIndex={0}
-                                    className="menu menu-sm dropdown-content mt-3 p-3 shadow-xl bg-[#0b122b] rounded-box w-52"
+                                    className="
+    dropdown-content
+    fixed
+    left-1/2
+    -translate-x-1/2
+    top-20
+
+    w-72
+    rounded-2xl
+    bg-[#0b122b]/95
+    backdrop-blur-xl
+    shadow-2xl
+    border border-white/10
+
+    p-6
+    space-y-2
+    z-50
+  "
                                 >
                                     <li><a href="#home">Inicio</a></li>
                                     <li><a href="#about">Conócenos</a></li>
@@ -107,12 +159,22 @@ export default function LandingPage() {
 
                         {/* Right */}
                         <div className="navbar-end hidden lg:flex">
-                            <a
+                            <motion.a
                                 href="#contact"
-                                className="btn rounded-full bg-blue-600 hover:bg-blue-500 border-none text-white px-6"
+                                whileHover={{ y: -1 }}
+                                whileTap={{ scale: 0.97 }}
+                                className="
+    relative
+    px-6 py-2.5
+    rounded-xl
+    bg-blue-600 hover:bg-blue-500
+    text-white font-semibold
+    shadow-sm shadow-blue-500/30
+    transition-all
+  "
                             >
                                 Contacto
-                            </a>
+                            </motion.a>
                         </div>
                     </div>
                 </div>
@@ -143,9 +205,26 @@ export default function LandingPage() {
                             Club de Triatlón
                         </span>
 
-                        <h1 className="mt-6 text-5xl md:text-6xl font-extrabold leading-tight font-display">
-                            Esta es Tu <span className="text-blue-500">Temporada</span>
-                        </h1>
+                        <motion.h1
+                            className="mt-6 text-5xl md:text-6xl font-extrabold leading-tight font-display"
+                            variants={sentence}
+                            initial="hidden"
+                            animate="visible"
+                        >
+                            {"Esta es Tu ".split("").map((char, i) => (
+                                <motion.span key={i} variants={letter}>
+                                    {char}
+                                </motion.span>
+                            ))}
+
+                            <span className="text-blue-500">
+                                {"Temporada".split("").map((char, i) => (
+                                    <motion.span key={i} variants={letter}>
+                                        {char}
+                                    </motion.span>
+                                ))}
+                            </span>
+                        </motion.h1>
                         <motion.p
                             initial={{ opacity: 0, y: 20 }}
                             whileInView={{ opacity: 1, y: 0 }}
