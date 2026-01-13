@@ -561,7 +561,7 @@ export default function LandingPage() {
                                     {[
                                         {
                                             icon: FaInstagram,
-                                            href: "https://instagram.com/tuclub",
+                                            href: "https://www.instagram.com/tricoolchile/",
                                             label: "Instagram",
                                         },
                                         {
