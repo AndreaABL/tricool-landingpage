@@ -4,6 +4,7 @@ import { Zap, Star, Check, Waves, Bike, PersonStanding, Mail, Phone, MapPin } fr
 import { useState } from "react";
 import emailjs from "emailjs-com";
 import { FaInstagram, FaFacebookF } from "react-icons/fa";
+import logo from "./assets/logo-tricool.png";
 
 
 export default function LandingPage() {
@@ -129,7 +130,32 @@ export default function LandingPage() {
                                     <li><a href="#contact" className="flex justify-center text-lg font-semibold py-3 rounded-xl text-white hover:bg-white/5 transition">Contacto</a></li>
                                 </ul>
                             </div>
-                            <a className="text-xl font-extrabold tracking-wide font-display">TRICOOL</a>
+                            <motion.a
+                                href="#home"
+                                whileHover={{ scale: 1.04 }}
+                                className="flex items-center gap-3"
+                            >
+                                <img
+                                    src={logo} // or "/logo.png" if using public folder
+                                    alt="Tricool Logo"
+                                    className="
+      h-12 w-auto
+      brightness-110
+      drop-shadow-[0_0_10px_rgba(59,130,246,0.35)]
+    "
+                                />
+
+                                <span
+                                    className="
+      text-sm
+      font-semibold
+      tracking-widest
+      text-white/90
+    "
+                                >
+                                    TRICOOL
+                                </span>
+                            </motion.a>
                         </div>
 
                         {/* Center */}
@@ -675,13 +701,30 @@ export default function LandingPage() {
                     </div>
                 </div>
             </section>
-            {/* Footer */}
-            <footer className="bg-[#0b1220] py-6 text-gray-400">
-                <div className="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-4">
-                    <span className="font-semibold text-white">TRICOOL</span>
-                    <p className="text-sm text-center">
+            <footer className="bg-[#0b1220] py-8 text-gray-400">
+                <div className="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-6">
+
+                    {/* Logo */}
+                    <div className="flex items-center gap-3">
+                        <img
+                            src={logo} // or "/logo.png"
+                            alt="Tricool Logo"
+                            className="
+          h-10 w-auto
+          brightness-110
+          drop-shadow-[0_0_8px_rgba(59,130,246,0.25)]
+        "
+                        />
+                        <span className="text-xs tracking-widest text-white/80 font-semibold">
+                            TRICOOL
+                        </span>
+                    </div>
+
+                    {/* Copyright */}
+                    <p className="text-xs text-center text-gray-500">
                         © 2026 Tricool Club de Triatlón. Todos los derechos reservados.
                     </p>
+
                 </div>
             </footer>
 
