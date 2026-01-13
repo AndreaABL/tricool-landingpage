@@ -3,6 +3,8 @@ import { DisciplineCard } from "./components/DisciplineCard";
 import { Zap, Star, Check, Waves, Bike, PersonStanding, Mail, Phone, MapPin } from "lucide-react";
 import { useState } from "react";
 import emailjs from "emailjs-com";
+import { FaInstagram, FaFacebookF } from "react-icons/fa";
+
 
 export default function LandingPage() {
     const stats = [
@@ -96,11 +98,7 @@ export default function LandingPage() {
                             <div className="dropdown">
                                 <label
                                     tabIndex={0}
-                                    className="
-    btn btn-ghost lg:hidden
-    w-12 h-12
-    flex items-center justify-center
-  "
+                                    className="btn btn-ghost lg:hidden w-12 h-12 flex items-center justify-center"
                                 >
                                     <svg
                                         xmlns="http://www.w3.org/2000/svg"
@@ -120,29 +118,15 @@ export default function LandingPage() {
 
                                 <ul
                                     tabIndex={0}
-                                    className="
-    dropdown-content
-    fixed
-    left-1/2
-    -translate-x-1/2
-    top-20
-
-    w-72
-    rounded-2xl
-    bg-[#0b122b]/95
-    backdrop-blur-xl
-    shadow-2xl
-    border border-white/10
-
-    p-6
-    space-y-2
-    z-50
-  "
+                                    initial={{ opacity: 0, scale: 0.95, y: -10 }}
+                                    animate={{ opacity: 1, scale: 1, y: 0 }}
+                                    transition={{ duration: 0.25, ease: "easeOut" }}
+                                    className="dropdown-content fixed left-1/2-translate-x-1/2top-20w-72 rounded-2xl bg-[#0b122b]/95 backdrop-blur-xl shadow-2xl border border-white/10 p-6 space-y-4 z-50"
                                 >
-                                    <li><a href="#home">Inicio</a></li>
-                                    <li><a href="#about">Conócenos</a></li>
-                                    <li><a href="#disciplines">Disciplinas</a></li>
-                                    <li><a href="#contact">Contacto</a></li>
+                                    <li><a href="#home" className="flex justify-center text-lg font-semibold py-3 rounded-xl text-white hover:bg-white/5 transition">Inicio</a></li>
+                                    <li><a href="#about" className="flex justify-center text-lg font-semibold py-3 rounded-xl text-white hover:bg-white/5 transition">Conócenos</a></li>
+                                    <li><a href="#disciplines" className="flex justify-center text-lg font-semibold py-3 rounded-xl text-white hover:bg-white/5 transition">Disciplinas</a></li>
+                                    <li><a href="#contact" className="flex justify-center text-lg font-semibold py-3 rounded-xl text-white hover:bg-white/5 transition">Contacto</a></li>
                                 </ul>
                             </div>
                             <a className="text-xl font-extrabold tracking-wide font-display">TRICOOL</a>
@@ -163,17 +147,8 @@ export default function LandingPage() {
                                 href="#contact"
                                 whileHover={{ y: -1 }}
                                 whileTap={{ scale: 0.97 }}
-                                className="
-    relative
-    px-6 py-2.5
-    rounded-xl
-    bg-blue-600 hover:bg-blue-500
-    text-white font-semibold
-    shadow-sm shadow-blue-500/30
-    transition-all
-  "
-                            >
-                                Contacto
+                                className="relative px-6 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-semibold shadow-sm shadow-blue-500/30 transition-all"
+                            >Contacto
                             </motion.a>
                         </div>
                     </div>
@@ -354,20 +329,9 @@ export default function LandingPage() {
                                 ].map((item, i) => (
                                     <div
                                         key={i}
-                                        className="
-                flex items-center gap-2
-                px-5 py-2 rounded-full
-                bg-blue-500/10
-                border border-blue-400/30
-                text-blue-300 text-sm
-            "
+                                        className="flex items-center gap-2 px-5 py-2 rounded-full bg-blue-500/10 border border-blue-400/30 text-blue-300 text-sm"
                                     >
-                                        <span className="
-                flex items-center justify-center
-                w-4 h-4 rounded-full
-                bg-blue-400/20
-                text-blue-400 text-xs
-            ">
+                                        <span className="flex items-center justify-center w-4 h-4 rounded-full bg-blue-400/20 text-blue-400 text-xs">
                                             <Check size={12} />
                                         </span>
 
@@ -593,14 +557,31 @@ export default function LandingPage() {
                                 </div>
 
                                 {/* Social icons */}
-                                <div className="flex gap-3 pt-2">
-                                    {['F, I'].map((Icon, i) => (
-                                        <motion.div
+                                <div className="flex justify-center gap-4 pt-6">
+                                    {[
+                                        {
+                                            icon: FaInstagram,
+                                            href: "https://instagram.com/tuclub",
+                                            label: "Instagram",
+                                        },
+                                        {
+                                            icon: FaFacebookF,
+                                            href: "https://facebook.com/tuclub",
+                                            label: "Facebook",
+                                        },
+                                    ].map(({ icon: Icon, href, label }, i) => (
+                                        <motion.a
                                             key={i}
-                                            whileHover={{ scale: 1.1 }}
-                                            className="w-10 h-10 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center text-gray-300 hover:text-blue-400 hover:bg-blue-500/20 transition cursor-pointer"
+                                            href={href}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            aria-label={label}
+                                            whileHover={{ scale: 1.15, y: -2 }}
+                                            whileTap={{ scale: 0.95 }}
+                                            className="w-11 h-11 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-gray-300 hover:text-blue-400 hover:bg-blue-500/20 transition"
                                         >
-                                        </motion.div>
+                                            <Icon size={20} />
+                                        </motion.a>
                                     ))}
                                 </div>
                             </motion.div>
