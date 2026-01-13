@@ -1,10 +1,21 @@
 import { motion } from "framer-motion";
+import { useEffect } from "react";
 import { DisciplineCard } from "./components/DisciplineCard";
 import { Zap, Star, Check, Waves, Bike, PersonStanding, Mail, Phone, MapPin } from "lucide-react";
 import { useState } from "react";
 import emailjs from "emailjs-com";
 import { FaInstagram, FaFacebookF } from "react-icons/fa";
 import logo from "./assets/logo-tricool.png";
+import gallery1 from "./assets/gallery-1.jpeg";
+import gallery2 from "./assets/gallery-2.jpeg";
+import gallery3 from "./assets/gallery-3.jpeg";
+import gallery4 from "./assets/gallery-4.jpeg";
+import gallery5 from "./assets/gallery-5.jpeg";
+import gallery6 from "./assets/gallery-6.jpeg";
+import gallery7 from "./assets/gallery-7.jpeg";
+import gallery8 from "./assets/gallery-8.jpeg";
+import hero1 from "./assets/hero-1.jpeg";
+import hero2 from "./assets/hero-2.jpeg";
 
 
 export default function LandingPage() {
@@ -13,6 +24,17 @@ export default function LandingPage() {
         { label: "Atletas activos", value: 75, text: "150+" },
         { label: "Medallas ganadas", value: 60, text: "50+" },
     ];
+
+    const heroImages = [hero1, hero2];
+    const [heroIndex, setHeroIndex] = useState(0);
+
+    useEffect(() => {
+        const interval = setInterval(() => {
+            setHeroIndex((prev) => (prev + 1) % heroImages.length);
+        }, 4000); // change every 4s
+
+        return () => clearInterval(interval);
+    }, []);
 
     const [formData, setFormData] = useState({
         name: "",
@@ -180,18 +202,27 @@ export default function LandingPage() {
             </motion.nav>
 
             {/* Hero */}
-            <section id="home" className="relative min-h-screen text-white flex items-center">
-                <div
-                    className="absolute inset-0 bg-cover bg-center opacity-30"
-                    style={{
-                        backgroundImage:
-                            "url('https://images.unsplash.com/photo-1508609349937-5ec4ae374ebf?auto=format&fit=crop&w=2000&q=80')"
-                    }}
-                />
+            <section id="home" className="relative min-h-screen text-white flex items-center overflow-hidden">
+
+                {/* FADING BACKGROUND IMAGES */}
+                <div className="absolute inset-0">
+                    {heroImages.map((img, i) => (
+                        <motion.div
+                            key={i}
+                            className="absolute inset-0 bg-cover bg-center"
+                            style={{ backgroundImage: `url(${img})` }}
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: i === heroIndex ? 0.98 : 0 }}
+                            transition={{ duration: 1.5, ease: "easeInOut" }}
+                        />
+                    ))}
+                </div>
+
+                {/* Gradient overlay (keeps text readable) */}
                 <div className="absolute inset-0 bg-gradient-to-r from-[#0b122b] via-[#0b122b]/85 to-[#0b122b]/60" />
 
-                {/* CONTENT — pulled slightly toward center */}
-                <div className="relative z-10 w-full max-w-6xl mx-auto px-10 pt-24 pb-20 gap-12 grid lg:grid-cols-2 gap-16 items-center">
+                {/* CONTENT */}
+                <div className="relative z-10 w-full max-w-6xl mx-auto px-10 pt-24 pb-20 grid lg:grid-cols-2 gap-16 items-center">
 
                     {/* LEFT – HERO TEXT */}
                     <motion.div
@@ -224,16 +255,16 @@ export default function LandingPage() {
                                 ))}
                             </span>
                         </motion.h1>
+
                         <motion.p
                             initial={{ opacity: 0, y: 20 }}
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true }}
                             transition={{ duration: 0.6, ease: "easeOut" }}
                             className="mt-8 text-gray-300 text-lg leading-relaxed font-sans"
-                        >Encuentra tu entrenador, comienza un plan, imagina en quién te convertirás.
+                        >
+                            Encuentra tu entrenador, comienza un plan, imagina en quién te convertirás.
                         </motion.p>
-
-
                     </motion.div>
 
                     {/* RIGHT – MISSION & VISION */}
@@ -259,8 +290,6 @@ export default function LandingPage() {
                                 >
                                     Formar atletas integrales, promoviendo el triatlón como estilo de vida saludable y competitivo.
                                 </motion.p>
-
-
                             </div>
                         </div>
 
@@ -280,7 +309,6 @@ export default function LandingPage() {
                                 >
                                     Ser el club de triatlón referente en la región, desarrollando campeones con valores deportivos.
                                 </motion.p>
-
                             </div>
                         </div>
                     </motion.div>
@@ -453,6 +481,101 @@ export default function LandingPage() {
                     </div>
                 </div>
             </section>
+
+            {/* Photo Carousel */}
+            <section className="bg-[#0b122b] py-20 text-white overflow-hidden">
+                <div className="max-w-7xl mx-auto px-8">
+
+                    {/* Header */}
+                    <motion.div
+                        initial={{ opacity: 0, y: 30 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.6 }}
+                        className="text-center mb-14"
+                    >
+                        <p className="text-blue-400 uppercase tracking-widest mb-4 font-bold">
+                            Nuestra Comunidad
+                        </p>
+                        <h2 className="text-4xl md:text-5xl font-extrabold font-display">
+                            Momentos <span className="text-blue-500">Tricool</span>
+                        </h2>
+                        <p className="mt-4 text-gray-400 max-w-2xl mx-auto">
+                            Entrenamientos, competencias y la energía que nos mueve.
+                        </p>
+                    </motion.div>
+
+                    {/* Carousel */}
+                    <div className="relative">
+                        <motion.div
+                            className="flex gap-6"
+                            drag="x"
+                            dragConstraints={{ left: -2000, right: 0 }}
+                            whileTap={{ cursor: "grabbing" }}
+                            animate={{ x: ["0%", "-50%"] }}
+                            transition={{
+                                repeat: Infinity,
+                                repeatType: "loop",
+                                duration: 10,
+                                ease: "linear",
+                            }}
+                        >
+                            {[...[
+                                gallery1,
+                                gallery2,
+                                gallery3,
+                                gallery4,
+                                gallery5,
+                                gallery6,
+                                gallery7,
+                                gallery8,
+                            ], ...[
+                                gallery1,
+                                gallery2,
+                                gallery3,
+                                gallery4,
+                                gallery5,
+                                gallery6,
+                                gallery7,
+                                gallery8,
+                            ]].map((img, i) => (
+                                <motion.div
+                                    key={i}
+                                    whileHover={{ scale: 1.05 }}
+                                    className="
+                            min-w-[260px] sm:min-w-[340px] lg:min-w-[420px]
+                            h-[360px]
+                            relative overflow-hidden rounded-3xl
+                            bg-white/5 backdrop-blur-xl
+                            border border-white/10
+                            hover:border-blue-400/40
+                            hover:shadow-[0_20px_45px_-15px_rgba(59,130,246,0.45)]
+                            transition-all
+                        "
+                                >
+                                    <img
+                                        src={img}
+                                        alt={`Galería Tricool ${i + 1}`}
+                                        className="
+                                absolute inset-0 w-full h-full object-cover
+                                transition-transform duration-700
+                                hover:scale-110
+                            "
+                                    />
+
+                                    {/* Overlay */}
+                                    <div className="
+                            absolute inset-0
+                            bg-gradient-to-t from-[#0b122b]/70 via-transparent to-transparent
+                        " />
+                                </motion.div>
+                            ))}
+                        </motion.div>
+                    </div>
+
+                </div>
+            </section>
+
             {/* Disciplines */}
             <section id="disciplines" className="bg-[#0b122b] py-6 text-white">
                 <div className="max-w-7xl mx-auto px-8">
