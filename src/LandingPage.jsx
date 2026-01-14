@@ -2,9 +2,10 @@ import { motion } from "framer-motion";
 import { useEffect } from "react";
 import { DisciplineCard } from "./components/DisciplineCard";
 import { Zap, Star, Check, Waves, PersonStanding, Medal, GraduationCap, Baby, Mail, Phone, MapPin } from "lucide-react";
-import { useState } from "react";
+import { useState, useRef } from "react";
 import emailjs from "emailjs-com";
 import { FaInstagram, FaWhatsapp, FaVolleyballBall } from "react-icons/fa";
+import { GiRunningShoe} from "react-icons/gi";
 import logo from "./assets/logo-tricool.png";
 import gallery1 from "./assets/gallery-1.jpeg";
 import gallery2 from "./assets/gallery-2.jpeg";
@@ -14,6 +15,21 @@ import gallery5 from "./assets/gallery-5.jpeg";
 import gallery6 from "./assets/gallery-6.jpeg";
 import gallery7 from "./assets/gallery-7.jpeg";
 import gallery8 from "./assets/gallery-8.jpeg";
+import gallery9 from "./assets/gallery-9.jpeg";
+import gallery10 from "./assets/gallery-10.jpeg";
+import gallery11 from "./assets/gallery-11.jpeg";
+import gallery12 from "./assets/gallery-12.jpeg";
+import gallery13 from "./assets/gallery-13.jpeg";
+import gallery14 from "./assets/gallery-14.jpeg";
+import gallery15 from "./assets/gallery-15.jpeg";
+import gallery16 from "./assets/gallery-16.jpeg";
+import gallery17 from "./assets/gallery-17.jpeg";
+import gallery18 from "./assets/gallery-18.jpeg";
+import gallery19 from "./assets/gallery-19.jpeg";
+import gallery20 from "./assets/gallery-20.jpeg";
+
+import miguelOyarce from "./assets/coaches/miguel-oyarce.jpeg";
+
 import hero1 from "./assets/hero-1.jpeg";
 import hero2 from "./assets/hero-2.jpeg";
 
@@ -105,6 +121,48 @@ export default function LandingPage() {
             transition: { ease: "easeOut", duration: 0.4 },
         },
     };
+    const coaches = [
+        { name: "Leonel Cid", role: "Entrenador Natación", },
+        { name: "Arnaldo Muñoz", role: "Entrenador Triatlón", },
+        { name: "Miguel Oyarce", role: "Entrenador Triatlón", photo: miguelOyarce },
+        { name: "Hans Salas", role: "Entrenador Atletismo", },
+        { name: "René Morales", role: "Entrenador de Voleibol", },
+    ];
+
+    const galleryImages = [
+        gallery1,
+        gallery2,
+        gallery3,
+        gallery4,
+        gallery5,
+        gallery6,
+        gallery7,
+        gallery8,
+        gallery9,
+        gallery10,
+        gallery11,
+        gallery12,
+        gallery13,
+        gallery14,
+        gallery15,
+        gallery16,
+        gallery17,
+        gallery18,
+        gallery19,
+        gallery20,
+    ];
+
+    const carouselImages = [...galleryImages, ...galleryImages];
+    const carouselRef = useRef(null);
+    const [carouselWidth, setCarouselWidth] = useState(0);
+
+    useEffect(() => {
+        if (carouselRef.current) {
+            const scrollWidth = carouselRef.current.scrollWidth;
+            const offsetWidth = carouselRef.current.offsetWidth;
+            setCarouselWidth(scrollWidth - offsetWidth);
+        }
+    }, []);
 
     return (
         <div className="min-h-screen w-full bg-[#0b1220] flex flex-col overflow-x-hidden antialiased">
@@ -496,6 +554,78 @@ export default function LandingPage() {
                                 </motion.div>
                             ))}
                         </div>
+                        {/* Coaches */}
+                        <div className="mt-24 w-full">
+                            <motion.h3
+                                initial={{ opacity: 0, y: 20 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                viewport={{ once: true }}
+                                transition={{ duration: 0.6 }}
+                                className="text-center text-4xl md:text-5xl font-extrabold mb-14 font-display"
+                            >
+                                Nuestro <span className="text-blue-500">Equipo Técnico</span>
+                            </motion.h3>
+
+                            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-8">
+                                {coaches.map((coach, i) => (
+                                    <motion.div
+                                        key={i}
+                                        initial={{ opacity: 0, y: 40 }}
+                                        whileInView={{ opacity: 1, y: 0 }}
+                                        whileHover={{
+                                            y: -12,
+                                            scale: 1.04,
+                                        }}
+                                        animate={{
+                                            y: [0, -4, 0], // subtle floating
+                                        }}
+                                        transition={{
+                                            type: "spring",
+                                            stiffness: 120,
+                                            damping: 18,
+                                            delay: i * 0.08,
+                                            repeat: Infinity,
+                                            repeatDelay: 4,
+                                        }}
+                                        viewport={{ once: true }}
+                                        className="
+    group relative
+    rounded-3xl p-6
+    bg-white/5 backdrop-blur-xl
+    border border-white/10
+    hover:border-blue-400/40
+    hover:shadow-[0_25px_50px_-15px_rgba(59,130,246,0.45)]
+    transition-all
+    text-center
+  "
+
+                                    >
+                                        {/* Photo placeholder */}
+                                        <div className="relative mx-auto mb-5 w-32 h-32 rounded-2xl overflow-hidden border border-white/10">
+                                            <img
+                                                src={coach.photo}
+                                                alt={`Foto de ${coach.name}`}
+                                                className="
+    w-full h-full object-cover
+    transition-transform
+    duration-700
+    ease-out
+    group-hover:scale-115
+  "
+                                            />
+                                        </div>
+
+                                        {/* Info */}
+                                        <h4 className="text-lg font-bold text-white">
+                                            {coach.name}
+                                        </h4>
+                                        <p className="text-sm text-blue-400 mt-1">
+                                            {coach.role}
+                                        </p>
+                                    </motion.div>
+                                ))}
+                            </div>
+                        </div>
                     </div>
                 </div>
             </section>
@@ -526,66 +656,48 @@ export default function LandingPage() {
                     {/* Carousel */}
                     <div className="relative">
                         <motion.div
-                            className="flex gap-6"
+                            ref={carouselRef}
+                            className="flex gap-6 cursor-grab"
                             drag="x"
-                            dragConstraints={{ left: -2000, right: 0 }}
+                            dragConstraints={{ left: -carouselWidth, right: 0 }}
                             whileTap={{ cursor: "grabbing" }}
-                            animate={{ x: ["0%", "-50%"] }}
+                            animate={{ x: [-0, -carouselWidth / 2] }}
                             transition={{
                                 repeat: Infinity,
                                 repeatType: "loop",
-                                duration: 10,
+                                duration: carouselImages.length * 1.2,
                                 ease: "linear",
                             }}
                         >
-                            {[...[
-                                gallery1,
-                                gallery2,
-                                gallery3,
-                                gallery4,
-                                gallery5,
-                                gallery6,
-                                gallery7,
-                                gallery8,
-                            ], ...[
-                                gallery1,
-                                gallery2,
-                                gallery3,
-                                gallery4,
-                                gallery5,
-                                gallery6,
-                                gallery7,
-                                gallery8,
-                            ]].map((img, i) => (
+                            {carouselImages.map((img, i) => (
                                 <motion.div
                                     key={i}
                                     whileHover={{ scale: 1.05 }}
                                     className="
-                            min-w-[260px] sm:min-w-[340px] lg:min-w-[420px]
-                            h-[360px]
-                            relative overflow-hidden rounded-3xl
-                            bg-white/5 backdrop-blur-xl
-                            border border-white/10
-                            hover:border-blue-400/40
-                            hover:shadow-[0_20px_45px_-15px_rgba(59,130,246,0.45)]
-                            transition-all
-                        "
+        min-w-[260px] sm:min-w-[340px] lg:min-w-[420px]
+        h-[360px]
+        relative overflow-hidden rounded-3xl
+        bg-white/5 backdrop-blur-xl
+        border border-white/10
+        hover:border-blue-400/40
+        hover:shadow-[0_20px_45px_-15px_rgba(59,130,246,0.45)]
+        transition-all
+        select-none
+      "
                                 >
                                     <img
                                         src={img}
                                         alt={`Galería Tricool ${i + 1}`}
+                                        draggable={false}
                                         className="
-                                absolute inset-0 w-full h-full object-cover
-                                transition-transform duration-700
-                                hover:scale-110
-                            "
+          absolute inset-0 w-full h-full object-cover
+          transition-transform duration-700
+          hover:scale-110
+          pointer-events-none
+        "
                                     />
 
-                                    {/* Overlay */}
-                                    <div className="
-                            absolute inset-0
-                            bg-gradient-to-t from-[#0b122b]/70 via-transparent to-transparent
-                        " />
+                                    <div className="absolute inset-0 bg-gradient-to-t from-[#0b122b]/70 via-transparent to-transparent" />
                                 </motion.div>
                             ))}
                         </motion.div>
@@ -653,7 +765,7 @@ export default function LandingPage() {
                         <DisciplineCard
                             title="Running"
                             description="Corre con técnica, velocidad y control de carga."
-                            icon={<PersonStanding size={28} />}
+                            icon={<GiRunningShoe size={28} />}
                             items={[
                                 "Series y fartlek",
                                 "Prevención de lesiones",
@@ -683,7 +795,7 @@ export default function LandingPage() {
 
                         {/* Vóleibol Femenino */}
                         <DisciplineCard
-                            title="Vóleibol Femenino"
+                            title="Voleibol Femenino"
                             description="Entrenamiento técnico y táctico en equipo."
                             icon={<FaVolleyballBall size={26} />}
                             items={[
@@ -957,6 +1069,32 @@ export default function LandingPage() {
 
                 </div>
             </footer>
+            <motion.a
+                href="https://api.whatsapp.com/send?phone=56988883966"
+                target="_blank"
+                rel="noopener noreferrer"
+                initial={{ scale: 0, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                whileHover={{ scale: 1.12 }}
+                whileTap={{ scale: 0.95 }}
+                transition={{
+                    type: "spring",
+                    stiffness: 200,
+                    damping: 12,
+                }}
+                className="
+    fixed bottom-6 right-6 z-50
+    w-16 h-16
+    rounded-full
+    bg-[#25D366]
+    flex items-center justify-center
+    shadow-[0_10px_30px_rgba(37,211,102,0.45)]
+    hover:shadow-[0_15px_40px_rgba(37,211,102,0.65)]
+  "
+                aria-label="WhatsApp"
+            >
+                <FaWhatsapp size={30} className="text-white" />
+            </motion.a>
 
         </div>
     );
