@@ -205,13 +205,18 @@ export default function LandingPage() {
                                 >
                                     <li><a href="#home">Inicio</a></li>
                                     <li><a href="#about">Conócenos</a></li>
-                                    <li><a href="#disciplines">Disciplinas</a></li>
+                                    <li><a href="#coaches">Entrenadores</a></li>
+                                    <li><a href="#disciplines">Disciplinas</a></li>                    
                                     <li><a href="#contact">Contacto</a></li>
                                 </ul>
                             </div>
 
                             <a href="#home" className="flex items-center gap-2">
-                                <img src={logo} alt="Tricool Logo" className="h-9 w-auto brightness-110 drop-shadow-lg transition" />
+                                <img src={logo} alt="Tricool Logo" className="h-9 w-auto
+    brightness-110
+    drop-shadow-[0_0_6px_rgba(56,189,248,0.45)]
+    drop-shadow-[0_0_14px_rgba(59,130,246,0.25)]
+    transition" />
                             </a>
                         </div>
 
@@ -220,7 +225,11 @@ export default function LandingPage() {
 
                             <div className="navbar-start">
                                 <a href="#home" className="flex items-center gap-3">
-                                    <img src={logo} alt="Tricool Logo" className="h-9 w-auto brightness-110 drop-shadow-lg transition" />
+                                    <img src={logo} alt="Tricool Logo" className="h-9 w-auto
+    brightness-110
+    drop-shadow-[0_0_6px_rgba(56,189,248,0.45)]
+    drop-shadow-[0_0_14px_rgba(59,130,246,0.25)]
+    transition" />
                                 </a>
                             </div>
 
@@ -228,7 +237,9 @@ export default function LandingPage() {
                                 <ul className="menu menu-horizontal gap-10 font-medium">
                                     <li><a href="#home">Inicio</a></li>
                                     <li><a href="#about">Conócenos</a></li>
+                                    <li><a href="#coaches">Entrenadores</a></li>
                                     <li><a href="#disciplines">Disciplinas</a></li>
+                                    
                                 </ul>
                             </div>
 
@@ -332,9 +343,15 @@ export default function LandingPage() {
                         animate={{ opacity: 1, x: 0 }}
                         transition={{ duration: 0.6 }}
                         className="flex flex-col gap-10
-    max-w-lg 2xl:max-w-5xl
-    2xl:col-span-3
-    2xl:mx-auto"
+    mx-auto
+    lg:mx-0
+    2xl:mx-auto
+
+    max-w-xl
+    lg:max-w-2xl
+    2xl:max-w-4xl
+
+    2xl:col-span-3"
                     >
                         <div className="relative overflow-hidden rounded-3xl bg-white/5 backdrop-blur-xl border border-white/10 p-4 sm:p-5">
                             <div className="absolute inset-0 flex items-center justify-center opacity-10 pointer-events-none">
@@ -555,7 +572,7 @@ export default function LandingPage() {
                             ))}
                         </div>
                         {/* Coaches */}
-                        <div className="mt-24 w-full">
+                        <div id="coaches" className="mt-24 w-full">
                             <motion.h3
                                 initial={{ opacity: 0, y: 20 }}
                                 whileInView={{ opacity: 1, y: 0 }}
@@ -629,7 +646,6 @@ export default function LandingPage() {
                     </div>
                 </div>
             </section>
-
             {/* Photo Carousel */}
             <section className="bg-[#0b122b] py-20 text-white overflow-hidden">
                 <div className="max-w-[2560px] mx-auto px-6 sm:px-10 xl:px-24 2xl:px-40">
