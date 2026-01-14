@@ -1,10 +1,10 @@
 import { motion } from "framer-motion";
 import { useEffect } from "react";
 import { DisciplineCard } from "./components/DisciplineCard";
-import { Zap, Star, Check, Waves, Bike, PersonStanding, Mail, Phone, MapPin } from "lucide-react";
+import { Zap, Star, Check, Waves, PersonStanding, Medal, GraduationCap, Baby, Mail, Phone, MapPin } from "lucide-react";
 import { useState } from "react";
 import emailjs from "emailjs-com";
-import { FaInstagram, FaFacebookF } from "react-icons/fa";
+import { FaInstagram, FaFacebookF, FaVolleyballBall } from "react-icons/fa";
 import logo from "./assets/logo-tricool.png";
 import gallery1 from "./assets/gallery-1.jpeg";
 import gallery2 from "./assets/gallery-2.jpeg";
@@ -288,7 +288,9 @@ export default function LandingPage() {
                                     transition={{ duration: 0.5 }}
                                     className="text-gray-300 text-sm leading-relaxed"
                                 >
-                                    Formar atletas integrales, promoviendo el triatlón como estilo de vida saludable y competitivo.
+                                    Promover la formación integral de sus socios y deportistas, fomentando la práctica
+                                    del deporte en distintas disciplinas (triatlón, natación, running, ciclismo, voleibol y
+                                    aquellas que se incorporen en el futuro).
                                 </motion.p>
                             </div>
                         </div>
@@ -330,10 +332,15 @@ export default function LandingPage() {
                     </motion.p>
 
 
-                    <h2 className="text-center text-5xl md:text-6xl font-extrabold font-display">
+                    <motion.h2 
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.6, ease: "easeOut" }} 
+                        className="text-center text-5xl md:text-6xl font-extrabold font-display">
                         El Ecosistema de{" "}
                         <span className="text-blue-500">Entrenamiento</span> Total
-                    </h2>
+                    </motion.h2>
                     <motion.p
                         initial={{ opacity: 0, y: 20 }}
                         whileInView={{ opacity: 1, y: 0 }}
@@ -349,19 +356,23 @@ export default function LandingPage() {
 
                         {/* Text */}
                         <div className="max-w-3xl">
-                            <h3 className="text-3xl font-bold mb-6">
+                            <motion.h3 
+                            initial={{ opacity: 0, y: 20 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ duration: 0.6, ease: "easeOut" }}
+                            className="text-3xl font-bold mb-6">
                                 Más que un club, una comunidad
-                            </h3>
+                            </motion.h3>
                             <motion.p
                                 initial={{ opacity: 0, y: 20 }}
                                 whileInView={{ opacity: 1, y: 0 }}
                                 viewport={{ once: true }}
                                 transition={{ duration: 0.6 }}
                                 className="text-gray-400 leading-relaxed mb-6 text-justify"
-                            >Fundado por apasionados del triatlón, Tricool nació
-                                con el objetivo de crear un espacio donde atletas de
-                                todos los niveles pudieran entrenar, crecer y superar
-                                sus límites juntos.
+                            >Tricool nace como un club familiar. Sus buenos resultados en competencias
+                                de atletismo a nivel regional y nacional motivaron para buscar nuevos horizontes e
+                                incursionar en la práctica del Triatlón.
                             </motion.p>
                             <motion.p
                                 initial={{ opacity: 0, y: 20 }}
@@ -372,7 +383,12 @@ export default function LandingPage() {
                             >Nuestro equipo de entrenadores certificados combina experiencia profesional con una metodología personalizada, asegurando que cada miembro alcance su máximo potencial en natación, ciclismo y carrera.
                             </motion.p>
 
-                            <div className="flex flex-wrap justify-center gap-8 p-6 mb-16">
+                            <motion.div 
+                            initial={{ opacity: 0, y: 20 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ duration: 0.6, ease: "easeOut" }}
+                            className="flex flex-wrap justify-center gap-8 p-6 mb-16">
 
                                 {[
                                     "Entrenadores certificados",
@@ -391,7 +407,7 @@ export default function LandingPage() {
                                     </div>
                                 ))}
 
-                            </div>
+                            </motion.div>
                         </div>
 
                         {/* Stats */}
@@ -579,53 +595,126 @@ export default function LandingPage() {
             {/* Disciplines */}
             <section id="disciplines" className="bg-[#0b122b] py-6 text-white">
                 <div className="max-w-7xl mx-auto px-8">
-                    <p className="text-center text-blue-400 uppercase tracking-widest mb-4 font-bold">
+                    <motion.p 
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.6, ease: "easeOut" }}
+                        className="text-center text-blue-400 uppercase tracking-widest mb-4 font-bold">
                         Ramas Deportivas
-                    </p>
+                    </motion.p>
 
-                    <h2 className="text-center text-5xl md:text-6xl font-extrabold mb-20">
+                    <motion.h2 
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.6, ease: "easeOut" }}
+                        className="text-center text-5xl md:text-6xl font-extrabold mb-20">
                         Nuestras <span className="text-blue-500">Disciplinas</span>
-                    </h2>
+                    </motion.h2>
 
-                    <div className="grid md:grid-cols-3 gap-6 text-justify [&>*]:scale-80">
-                        {/* Natación */}
+                    <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 text-justify">
+
+                        {/* Triatlón */}
                         <DisciplineCard
-                            title="Natación"
-                            description="Domina el agua con técnica perfecta. Entrenamos en piscina y aguas abiertas."
-                            icon={<Waves />}
-                            items={["Técnica de crawl", "Aguas abiertas", "Resistencia"]}
-                            gradient="from-cyan-400 to-blue-500"
-                            border="border-cyan-400/60"
-                            glow="bg-cyan-400"
+                            title="Triatlón"
+                            description="Entrenamiento integral combinando natación, ciclismo y carrera."
+                            icon={<Medal size={28} />}
+                            items={[
+                                "Planes integrados",
+                                "Preparación competitiva",
+                                "Enfoque por objetivos",
+                            ]}
+                            gradient="from-blue-500 to-indigo-600"
+                            border="border-blue-500/60"
+                            glow="bg-blue-500"
                             delay={0}
                         />
 
-                        {/* Ciclismo */}
+                        {/* Natación */}
                         <DisciplineCard
-                            title="Ciclismo"
-                            description="Conquista kilómetros con potencia y estrategia. Rutas grupales y entrenamiento indoor."
-                            icon={<Bike />}
-                            items={["Rutas en grupo", "Entrenamiento indoor", "Técnica de pedaleo"]}
-                            gradient="from-emerald-400 to-green-500"
-                            border="border-emerald-400/60"
-                            glow="bg-emerald-400"
-                            delay={0.15}
+                            title="Natación"
+                            description="Perfecciona tu técnica en piscina y aguas abiertas."
+                            icon={<Waves size={28} />}
+                            items={[
+                                "Técnica de crawl",
+                                "Aguas abiertas",
+                                "Resistencia",
+                            ]}
+                            gradient="from-cyan-400 to-blue-500"
+                            border="border-cyan-400/60"
+                            glow="bg-cyan-400"
+                            delay={0.1}
                         />
 
-                        {/* Carrera */}
+                        {/* Running */}
                         <DisciplineCard
-                            title="Carrera"
-                            description="Corre hacia tus metas con técnica y velocidad. Planes personalizados para cada nivel."
-                            icon={<PersonStanding />}
-                            items={["Series y fartlek", "Técnica de carrera", "Preparación mental"]}
+                            title="Running"
+                            description="Corre con técnica, velocidad y control de carga."
+                            icon={<PersonStanding size={28} />}
+                            items={[
+                                "Series y fartlek",
+                                "Prevención de lesiones",
+                                "Técnica de carrera",
+                            ]}
                             gradient="from-pink-500 to-red-500"
                             border="border-pink-500/60"
                             glow="bg-pink-500"
+                            delay={0.2}
+                        />
+
+                        {/* Tricool Academy */}
+                        <DisciplineCard
+                            title="Academia Tricool"
+                            description="Formación deportiva y personal desde la base."
+                            icon={<GraduationCap size={28} />}
+                            items={[
+                                "Desarrollo integral",
+                                "Valores deportivos",
+                                "Proyección a largo plazo",
+                            ]}
+                            gradient="from-purple-500 to-fuchsia-600"
+                            border="border-purple-500/60"
+                            glow="bg-purple-500"
                             delay={0.3}
                         />
+
+                        {/* Vóleibol Femenino */}
+                        <DisciplineCard
+                            title="Vóleibol Femenino"
+                            description="Entrenamiento técnico y táctico en equipo."
+                            icon={<FaVolleyballBall size={26} />}
+                            items={[
+                                "Trabajo en equipo",
+                                "Fuerza y coordinación",
+                                "Competencia local",
+                            ]}
+                            gradient="from-rose-500 to-pink-600"
+                            border="border-rose-500/60"
+                            glow="bg-rose-500"
+                            delay={0.4}
+                        />
+
+                        {/* Triatlón Kids */}
+                        <DisciplineCard
+                            title="Triatlón Kids"
+                            description="Iniciación deportiva divertida y segura para niños."
+                            icon={<Baby size={28} />}
+                            items={[
+                                "Aprendizaje lúdico",
+                                "Coordinación motriz",
+                                "Hábitos saludables",
+                            ]}
+                            gradient="from-lime-400 to-emerald-500"
+                            border="border-lime-400/60"
+                            glow="bg-lime-400"
+                            delay={0.5}
+                        />
+
                     </div>
                 </div>
             </section>
+
 
             {/* Contact */}
             <section
