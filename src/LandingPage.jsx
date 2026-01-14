@@ -4,7 +4,7 @@ import { DisciplineCard } from "./components/DisciplineCard";
 import { Zap, Star, Check, Waves, PersonStanding, Medal, GraduationCap, Baby, Mail, Phone, MapPin } from "lucide-react";
 import { useState } from "react";
 import emailjs from "emailjs-com";
-import { FaInstagram, FaFacebookF, FaVolleyballBall } from "react-icons/fa";
+import { FaInstagram, FaWhatsapp, FaVolleyballBall } from "react-icons/fa";
 import logo from "./assets/logo-tricool.png";
 import gallery1 from "./assets/gallery-1.jpeg";
 import gallery2 from "./assets/gallery-2.jpeg";
@@ -104,22 +104,20 @@ export default function LandingPage() {
     };
 
     return (
-        <div className="min-h-screen w-full bg-[#0b1220] flex flex-col overflow-x-hidden">
+        <div className="min-h-screen w-full bg-[#0b1220] flex flex-col overflow-x-hidden antialiased">
 
-            {/* Navbar */}
             <motion.nav
                 initial={{ y: -30, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
                 transition={{ duration: 0.5 }}
                 className="fixed top-0 left-0 w-full z-50 bg-[#0b122b]/80 backdrop-blur-xl border-b border-white/10"
             >
-                <div className="max-w-7xl mx-auto px-6">
-                    <div className="navbar w-full text-white px-6">
+                <div className="max-w-[2560px] w-full mx-auto px-6 sm:px-10 xl:px-24 2xl:px-40">
+                    <div className="navbar w-full text-white">
 
                         {/* ================= MOBILE NAVBAR ================= */}
                         <div className="flex w-full items-center justify-between lg:hidden">
 
-                            {/* Menu button */}
                             <div className="dropdown">
                                 <label tabIndex={0} className="btn btn-ghost p-2">
                                     <svg
@@ -151,31 +149,20 @@ export default function LandingPage() {
                                 </ul>
                             </div>
 
-                            {/* Mobile logo */}
                             <a href="#home" className="flex items-center gap-2">
-                                <img src={logo} alt="Tricool Logo" className="h-9 w-auto
-    brightness-110
-    drop-shadow-[0_0_6px_rgba(56,189,248,0.45)]
-    drop-shadow-[0_0_14px_rgba(59,130,246,0.25)]
-    transition" />
+                                <img src={logo} alt="Tricool Logo" className="h-9 w-auto brightness-110 drop-shadow-lg transition" />
                             </a>
                         </div>
 
                         {/* ================= DESKTOP NAVBAR ================= */}
                         <div className="hidden lg:flex w-full items-center">
 
-                            {/* LEFT — Brand */}
                             <div className="navbar-start">
                                 <a href="#home" className="flex items-center gap-3">
-                                    <img src={logo} alt="Tricool Logo" className="h-9 w-auto
-    brightness-110
-    drop-shadow-[0_0_6px_rgba(56,189,248,0.45)]
-    drop-shadow-[0_0_14px_rgba(59,130,246,0.25)]
-    transition" />
+                                    <img src={logo} alt="Tricool Logo" className="h-9 w-auto brightness-110 drop-shadow-lg transition" />
                                 </a>
                             </div>
 
-                            {/* CENTER — Menu */}
                             <div className="navbar-center">
                                 <ul className="menu menu-horizontal gap-10 font-medium">
                                     <li><a href="#home">Inicio</a></li>
@@ -184,12 +171,10 @@ export default function LandingPage() {
                                 </ul>
                             </div>
 
-                            {/* RIGHT — CTA */}
                             <div className="navbar-end">
                                 <a
                                     href="#contact"
-                                    className="px-7 py-2.5 rounded-2xl bg-blue-600
-        hover:bg-blue-500 font-semibold transition"
+                                    className="px-7 py-2.5 rounded-2xl bg-blue-600 hover:bg-blue-500 font-semibold transition"
                                 >
                                     Contacto
                                 </a>
@@ -204,7 +189,6 @@ export default function LandingPage() {
             {/* Hero */}
             <section id="home" className="relative min-h-screen text-white flex items-center overflow-hidden">
 
-                {/* FADING BACKGROUND IMAGES */}
                 <div className="absolute inset-0">
                     {heroImages.map((img, i) => (
                         <motion.div
@@ -218,25 +202,27 @@ export default function LandingPage() {
                     ))}
                 </div>
 
-                {/* Gradient overlay (keeps text readable) */}
                 <div className="absolute inset-0 bg-gradient-to-r from-[#0b122b] via-[#0b122b]/85 to-[#0b122b]/60" />
 
-                {/* CONTENT */}
-                <div className="relative z-10 w-full max-w-6xl mx-auto px-10 pt-24 pb-20 grid lg:grid-cols-2 gap-16 items-center">
+                <div className="relative z-10 w-full max-w-[2560px] mx-auto
+          px-6 sm:px-10 xl:px-24 2xl:px-40
+          pt-32 pb-24
+          grid grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3
+          gap-16 items-center">
 
-                    {/* LEFT – HERO TEXT */}
+                    {/* LEFT */}
                     <motion.div
                         initial={{ opacity: 0, x: -40 }}
                         animate={{ opacity: 1, x: 0 }}
                         transition={{ duration: 0.6 }}
-                        className="text-left max-w-xl"
+                        className="text-left max-w-xl lg:max-w-2xl 2xl:max-w-3xl"
                     >
                         <span className="uppercase text-xm tracking-widest text-blue-400 font-bold">
                             Club Deportivo Tricool
                         </span>
 
                         <motion.h1
-                            className="mt-6 text-5xl md:text-6xl font-extrabold leading-tight font-display"
+                            className="mt-6 text-4xl sm:text-5xl md:text-6xl xl:text-7xl 2xl:text-8xl font-extrabold leading-tight font-display"
                             variants={sentence}
                             initial="hidden"
                             animate="visible"
@@ -261,21 +247,20 @@ export default function LandingPage() {
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true }}
                             transition={{ duration: 0.6, ease: "easeOut" }}
-                            className="mt-8 text-gray-300 text-lg leading-relaxed font-sans"
+                            className="mt-6 sm:mt-8 text-gray-300 text-base sm:text-lg leading-relaxed font-sans"
                         >
                             Encuentra tu entrenador, comienza un plan, imagina en quién te convertirás.
                         </motion.p>
                     </motion.div>
 
-                    {/* RIGHT – MISSION & VISION */}
+                    {/* RIGHT */}
                     <motion.div
                         initial={{ opacity: 0, x: 40 }}
                         animate={{ opacity: 1, x: 0 }}
                         transition={{ duration: 0.6 }}
-                        className="flex flex-col gap-10 max-w-lg"
+                        className="flex flex-col gap-10 max-w-lg 2xl:max-w-xl 2xl:col-span-2"
                     >
-                        {/* Mission */}
-                        <div className="relative overflow-hidden rounded-3xl bg-white/5 backdrop-blur-xl border border-white/10 p-6 gap-8">
+                        <div className="relative overflow-hidden rounded-3xl bg-white/5 backdrop-blur-xl border border-white/10 p-4 sm:p-5">
                             <div className="absolute inset-0 flex items-center justify-center opacity-10 pointer-events-none">
                                 <Zap size={200} strokeWidth={1} />
                             </div>
@@ -295,8 +280,7 @@ export default function LandingPage() {
                             </div>
                         </div>
 
-                        {/* Vision */}
-                        <div className="relative overflow-hidden rounded-3xl bg-white/5 backdrop-blur-xl border border-white/10 p-6 gap-8">
+                        <div className="relative overflow-hidden rounded-3xl bg-white/5 backdrop-blur-xl border border-white/10 p-4 sm:p-5">
                             <div className="absolute inset-0 flex items-center justify-center opacity-10 pointer-events-none">
                                 <Star size={200} strokeWidth={1} />
                             </div>
@@ -320,7 +304,7 @@ export default function LandingPage() {
 
             {/* About */}
             <section id="about" className="bg-[#0b122b] py-10 text-white">
-                <div className="max-w-7xl mx-auto px-10">
+                <div className="max-w-[2560px] mx-auto px-6 sm:px-10 xl:px-24 2xl:px-40">
                     <motion.p
                         initial={{ opacity: 0, y: 20 }}
                         whileInView={{ opacity: 1, y: 0 }}
@@ -500,7 +484,7 @@ export default function LandingPage() {
 
             {/* Photo Carousel */}
             <section className="bg-[#0b122b] py-20 text-white overflow-hidden">
-                <div className="max-w-7xl mx-auto px-8">
+                <div className="max-w-[2560px] mx-auto px-6 sm:px-10 xl:px-24 2xl:px-40">
 
                     {/* Header */}
                     <motion.div
@@ -594,7 +578,7 @@ export default function LandingPage() {
 
             {/* Disciplines */}
             <section id="disciplines" className="bg-[#0b122b] py-6 text-white">
-                <div className="max-w-7xl mx-auto px-8">
+                <div className="max-w-[2560px] mx-auto px-6 sm:px-10 xl:px-24 2xl:px-40">
                     <motion.p 
                         initial={{ opacity: 0, y: 20 }}
                         whileInView={{ opacity: 1, y: 0 }}
@@ -721,7 +705,7 @@ export default function LandingPage() {
                 id="contact"
                 className="bg-gradient-to-b from-[#0b122b] to-[#050812] py-16 text-white"
             >
-                <div className="max-w-7xl mx-auto px-6">
+                <div className="max-w-[2560px] mx-auto px-6 sm:px-10 xl:px-24 2xl:px-40">
 
                     {/* Header */}
                     <motion.div
@@ -769,7 +753,7 @@ export default function LandingPage() {
                                             <Mail size={16} className="text-blue-400" />
                                         </span>
                                         <span className="font-medium text-white">
-                                            info@tricool.club
+                                            tricoolchile@gmail.com
                                         </span>
                                     </div>
 
@@ -778,7 +762,7 @@ export default function LandingPage() {
                                             <Phone size={16} className="text-blue-400" />
                                         </span>
                                         <span className="font-medium text-white">
-                                            +56 9 9855 2491
+                                            +56 9 8888 3966
                                         </span>
                                     </div>
 
@@ -801,9 +785,9 @@ export default function LandingPage() {
                                             label: "Instagram",
                                         },
                                         {
-                                            icon: FaFacebookF,
-                                            href: "https://facebook.com/tuclub",
-                                            label: "Facebook",
+                                            icon: FaWhatsapp,
+                                            href: "https://api.whatsapp.com/send?phone=56988883966",
+                                            label: "Whatsapp",
                                         },
                                     ].map(({ icon: Icon, href, label }, i) => (
                                         <motion.a
@@ -912,7 +896,7 @@ export default function LandingPage() {
                 </div>
             </section>
             <footer className="bg-[#0b1220] py-8 text-gray-400">
-                <div className="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-6">
+                <div className="max-w-[2560px] mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-6">
 
                     {/* Logo */}
                     <div className="flex items-center gap-3">
