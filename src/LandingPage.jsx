@@ -39,6 +39,7 @@ export default function LandingPage() {
     const [formData, setFormData] = useState({
         name: "",
         email: "",
+        discipline: "",
         level: "",
         message: ""
     });
@@ -63,6 +64,7 @@ export default function LandingPage() {
                 {
                     name: formData.name,
                     reply_to: formData.email,
+                    discipline: formData.discipline,
                     level: formData.level,
                     message: formData.message,
                 },
@@ -74,6 +76,7 @@ export default function LandingPage() {
             setFormData({
                 name: "",
                 email: "",
+                discipline: "",
                 level: "",
                 message: ""
             });
@@ -215,7 +218,19 @@ export default function LandingPage() {
                         initial={{ opacity: 0, x: -40 }}
                         animate={{ opacity: 1, x: 0 }}
                         transition={{ duration: 0.6 }}
-                        className="text-left max-w-xl lg:max-w-2xl 2xl:max-w-3xl"
+                        className="text-center
+    lg:text-left
+    2xl:text-center
+
+    mx-auto
+    lg:mx-0
+    2xl:mx-auto
+
+    max-w-xl
+    lg:max-w-2xl
+    2xl:max-w-4xl
+
+    2xl:col-span-3"
                     >
                         <span className="uppercase text-xm tracking-widest text-blue-400 font-bold">
                             Club Deportivo Tricool
@@ -258,7 +273,10 @@ export default function LandingPage() {
                         initial={{ opacity: 0, x: 40 }}
                         animate={{ opacity: 1, x: 0 }}
                         transition={{ duration: 0.6 }}
-                        className="flex flex-col gap-10 max-w-lg 2xl:max-w-xl 2xl:col-span-2"
+                        className="flex flex-col gap-10
+    max-w-lg 2xl:max-w-5xl
+    2xl:col-span-3
+    2xl:mx-auto"
                     >
                         <div className="relative overflow-hidden rounded-3xl bg-white/5 backdrop-blur-xl border border-white/10 p-4 sm:p-5">
                             <div className="absolute inset-0 flex items-center justify-center opacity-10 pointer-events-none">
@@ -316,11 +334,11 @@ export default function LandingPage() {
                     </motion.p>
 
 
-                    <motion.h2 
+                    <motion.h2
                         initial={{ opacity: 0, y: 20 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
-                        transition={{ duration: 0.6, ease: "easeOut" }} 
+                        transition={{ duration: 0.6, ease: "easeOut" }}
                         className="text-center text-5xl md:text-6xl font-extrabold font-display">
                         El Ecosistema de{" "}
                         <span className="text-blue-500">Entrenamiento</span> Total
@@ -340,12 +358,12 @@ export default function LandingPage() {
 
                         {/* Text */}
                         <div className="max-w-3xl">
-                            <motion.h3 
-                            initial={{ opacity: 0, y: 20 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: true }}
-                            transition={{ duration: 0.6, ease: "easeOut" }}
-                            className="text-3xl font-bold mb-6">
+                            <motion.h3
+                                initial={{ opacity: 0, y: 20 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                viewport={{ once: true }}
+                                transition={{ duration: 0.6, ease: "easeOut" }}
+                                className="text-3xl font-bold mb-6">
                                 Más que un club, una comunidad
                             </motion.h3>
                             <motion.p
@@ -367,12 +385,12 @@ export default function LandingPage() {
                             >Nuestro equipo de entrenadores certificados combina experiencia profesional con una metodología personalizada, asegurando que cada miembro alcance su máximo potencial en natación, ciclismo y carrera.
                             </motion.p>
 
-                            <motion.div 
-                            initial={{ opacity: 0, y: 20 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: true }}
-                            transition={{ duration: 0.6, ease: "easeOut" }}
-                            className="flex flex-wrap justify-center gap-8 p-6 mb-16">
+                            <motion.div
+                                initial={{ opacity: 0, y: 20 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                viewport={{ once: true }}
+                                transition={{ duration: 0.6, ease: "easeOut" }}
+                                className="flex flex-wrap justify-center gap-8 p-6 mb-16">
 
                                 {[
                                     "Entrenadores certificados",
@@ -579,7 +597,7 @@ export default function LandingPage() {
             {/* Disciplines */}
             <section id="disciplines" className="bg-[#0b122b] py-6 text-white">
                 <div className="max-w-[2560px] mx-auto px-6 sm:px-10 xl:px-24 2xl:px-40">
-                    <motion.p 
+                    <motion.p
                         initial={{ opacity: 0, y: 20 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
@@ -588,7 +606,7 @@ export default function LandingPage() {
                         Ramas Deportivas
                     </motion.p>
 
-                    <motion.h2 
+                    <motion.h2
                         initial={{ opacity: 0, y: 20 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
@@ -846,6 +864,25 @@ export default function LandingPage() {
                                                 className="w-full px-4 py-2.5 rounded-xl bg-[#0b122b] border border-white/10 text-sm text-white focus:outline-none focus:border-blue-500"
                                             />
                                         </div>
+                                    </div>
+                                    <div>
+                                        <label className="block text-xs text-gray-400 mb-1">
+                                            Disciplina
+                                        </label>
+                                        <select
+                                            name="discipline"
+                                            value={formData.discipline}
+                                            onChange={handleChange}
+                                            className="w-full px-4 py-2.5 rounded-xl bg-[#0b122b] border border-white/10 text-sm text-white focus:outline-none focus:border-blue-500"
+                                        >
+                                            <option value="">Selecciona la disciplina que deseas</option>
+                                            <option>Triatlón</option>
+                                            <option>Natación</option>
+                                            <option>Running</option>
+                                            <option>Academia Tricool</option>
+                                            <option>Vóleibol Femenino</option>
+                                            <option>Triatlon Kids</option>
+                                        </select>
                                     </div>
 
                                     <div>
