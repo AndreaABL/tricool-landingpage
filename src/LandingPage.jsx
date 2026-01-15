@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import { useEffect } from "react";
 import { DisciplineCard } from "./components/DisciplineCard";
-import { Zap, Star, Check, Waves, PersonStanding, Medal, GraduationCap, Baby, Mail, Phone, MapPin } from "lucide-react";
+import { Zap, Star, Check, Waves, Medal, GraduationCap, Baby, Mail, Phone, MapPin, User } from "lucide-react";
 import { useState, useRef, useCallback } from "react";
 import emailjs from "emailjs-com";
 import { FaInstagram, FaWhatsapp, FaVolleyballBall } from "react-icons/fa";
@@ -1118,7 +1118,15 @@ export default function LandingPage() {
                                             <Phone size={16} className="text-blue-400" />
                                         </span>
                                         <span className="font-medium text-white">
-                                            +56 9 8888 3966 <span>Carlos Chamorro, Presidente del Club</span> 
+                                            +56 9 8888 3966
+                                        </span>
+                                    </div>
+                                    <div className="flex items-center gap-3">
+                                        <span className="w-9 h-9 flex items-center justify-center rounded-lg bg-white/5 border border-white/10">
+                                            <User size={16} className="text-blue-400" />
+                                        </span>
+                                        <span className="font-medium text-white">
+                                            Carlos Chamorro, Presidente del Club
                                         </span>
                                     </div>
 
