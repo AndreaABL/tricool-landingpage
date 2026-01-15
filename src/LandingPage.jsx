@@ -1118,8 +1118,7 @@ export default function LandingPage() {
                                             <Phone size={16} className="text-blue-400" />
                                         </span>
                                         <span className="font-medium text-white">
-                                            +56 9 8888 3966, Carlos Chamorro, Presidente del Club
-
+                                            +56 9 8888 3966 <span>Carlos Chamorro, Presidente del Club</span> 
                                         </span>
                                     </div>
 
