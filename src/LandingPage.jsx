@@ -1080,9 +1080,9 @@ export default function LandingPage() {
                     </motion.div>
 
                     {/* Framed Content */}
-                    <div className="border-l border-r border-white/10 px-8 lg:px-12">
+                    <div className="border-white/10 px-0 sm:px-4 lg:px-12 lg:border-l lg:border-r">
 
-                        <div className="grid lg:grid-cols-2 gap-12 items-start">
+                        <div className="grid lg:grid-cols-2 gap-12 items-start justify-items-center lg:justify-items-stretch">
 
                             {/* LEFT INFO */}
                             <motion.div
@@ -1090,7 +1090,7 @@ export default function LandingPage() {
                                 whileInView={{ opacity: 1, x: 0 }}
                                 viewport={{ once: true }}
                                 transition={{ duration: 0.6 }}
-                                className="space-y-8 max-w-lg"
+                                className="space-y-8 w-full max-w-lg mx-auto lg:mx-0"
                             >
                                 <div>
                                     <h3 className="text-center text-blue-400 uppercase tracking-widest mb-4 font-bold">
@@ -1169,7 +1169,7 @@ export default function LandingPage() {
                                 whileInView={{ opacity: 1, x: 0 }}
                                 viewport={{ once: true }}
                                 transition={{ duration: 0.6 }}
-                                className="bg-[#0f1733]/80 backdrop-blur-xl border border-white/10 rounded-3xl p-8"
+                                className="w-full max-w-xl mx-auto lg:mx-0 bg-[#0f1733]/80 backdrop-blur-xl border border-white/10 rounded-3xl p-8"
                             >
                                 <form className="space-y-5" onSubmit={handleSubmit}>
 
