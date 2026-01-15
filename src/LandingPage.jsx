@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 import { useEffect } from "react";
 import { DisciplineCard } from "./components/DisciplineCard";
 import { Zap, Star, Check, Waves, PersonStanding, Medal, GraduationCap, Baby, Mail, Phone, MapPin } from "lucide-react";
-import { useState, useRef } from "react";
+import { useState, useRef, useCallback } from "react";
 import emailjs from "emailjs-com";
 import { FaInstagram, FaWhatsapp, FaVolleyballBall } from "react-icons/fa";
 import { GiRunningShoe } from "react-icons/gi";
@@ -34,7 +34,146 @@ import hero1 from "./assets/hero-1.jpeg";
 import hero2 from "./assets/hero-2.jpeg";
 
 
+function TurnstileWidget({ siteKey, onToken, onExpire, theme = "auto" }) {
+    const containerRef = useRef(null);
+    const widgetIdRef = useRef(null);
+    const [status, setStatus] = useState({ type: "idle", msg: "" });
+
+    useEffect(() => {
+        let cancelled = false;
+
+        if (!siteKey) {
+            setStatus({
+                type: "error",
+                msg:
+                    "Falta VITE_TURNSTILE_SITE_KEY. Crea un archivo .env en la raíz (junto a package.json) y reinicia npm run dev.",
+            });
+            return;
+        }
+
+        const ensureScript = () =>
+            new Promise((resolve, reject) => {
+                if (window.turnstile) return resolve();
+
+                const src =
+                    "https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit";
+                const existing = document.querySelector(`script[src="${src}"]`);
+
+                if (existing) {
+                    existing.addEventListener("load", resolve, { once: true });
+                    existing.addEventListener("error", reject, { once: true });
+                    return;
+                }
+
+                const script = document.createElement("script");
+                script.src = src;
+                script.async = true;
+                script.defer = true;
+                script.onload = resolve;
+                script.onerror = reject;
+                document.body.appendChild(script);
+            });
+
+        (async () => {
+            try {
+                setStatus({ type: "loading", msg: "Cargando captcha..." });
+                await ensureScript();
+                if (cancelled) return;
+
+                if (!containerRef.current) return;
+
+                if (window.turnstile && widgetIdRef.current !== null) {
+                    window.turnstile.remove(widgetIdRef.current);
+                    widgetIdRef.current = null;
+                }
+
+                widgetIdRef.current = window.turnstile.render(containerRef.current, {
+                    sitekey: siteKey,
+                    theme,
+                    callback: (token) => {
+                        onToken?.(token);
+                        setStatus({ type: "ok", msg: "" });
+                    },
+                    "expired-callback": () => {
+                        onToken?.("");
+                        onExpire?.();
+                    },
+                    "error-callback": () => {
+                        onToken?.("");
+                        setStatus({
+                            type: "error",
+                            msg:
+                                "Turnstile error. Revisa si tu site key permite localhost o usa testing keys.",
+                        });
+                    },
+                });
+
+                setStatus({ type: "idle", msg: "" });
+            } catch (e) {
+                console.error("Turnstile load/render error:", e);
+                setStatus({
+                    type: "error",
+                    msg:
+                        "No se pudo cargar Turnstile. Revisa tu conexión o bloqueadores (adblock) y la consola.",
+                });
+            }
+        })();
+
+        return () => {
+            cancelled = true;
+            if (window.turnstile && widgetIdRef.current !== null) {
+                window.turnstile.remove(widgetIdRef.current);
+            }
+            widgetIdRef.current = null;
+        };
+    }, [siteKey, theme]);
+
+    return (
+        <div className="mt-4">
+            <div
+                className="min-h-[70px] flex justify-center items-center"
+                ref={containerRef}
+            />
+            {status.type === "loading" && (
+                <div className="text-xs text-gray-400 text-center mt-2">{status.msg}</div>
+            )}
+            {status.type === "error" && (
+                <div className="text-xs text-red-300 bg-red-500/10 border border-red-400/20 rounded-xl p-3 mt-2">
+                    {status.msg}
+                </div>
+            )}
+        </div>
+    );
+}
+
+
+
+
 export default function LandingPage() {
+    const [turnstileToken, setTurnstileToken] = useState("");
+
+    useEffect(() => {
+        // Callbacks globales (Turnstile los llama por nombre)
+        window.onTurnstileSuccess = (token) => setTurnstileToken(token);
+        window.onTurnstileExpired = () => setTurnstileToken("");
+
+        // Inyecta el script si no existe
+        const src = "https://challenges.cloudflare.com/turnstile/v0/api.js";
+        const already = document.querySelector(`script[src="${src}"]`);
+        if (already) return;
+
+        const s = document.createElement("script");
+        s.src = src;
+        s.async = true;
+        s.defer = true;
+        document.body.appendChild(s);
+
+        return () => {
+            // opcional: limpiar callbacks
+            delete window.onTurnstileSuccess;
+            delete window.onTurnstileExpired;
+        };
+    }, []);
     const stats = [
         { label: "Años de experiencia", value: 90, text: "10+" },
         { label: "Atletas activos", value: 75, text: "150+" },
@@ -69,9 +208,26 @@ export default function LandingPage() {
         });
     };
 
+
     const handleSubmit = async (e) => {
         e.preventDefault();
+
+        if (!turnstileToken) {
+            alert("Por favor completa el captcha primero.");
+            return;
+        }
+
         setLoading(true);
+
+        const sentAt = new Intl.DateTimeFormat("es-CL", {
+            timeZone: "America/Santiago",
+            year: "numeric",
+            month: "2-digit",
+            day: "2-digit",
+            hour: "2-digit",
+            minute: "2-digit",
+            second: "2-digit",
+        }).format(new Date());
 
         try {
             await emailjs.send(
@@ -83,19 +239,19 @@ export default function LandingPage() {
                     discipline: formData.discipline,
                     level: formData.level,
                     message: formData.message,
+                    sent_at: sentAt,
+
+                    // opcional: se envía como dato, NO se verifica con EmailJS
+                    turnstile_token: turnstileToken,
                 },
                 "mAP4MA4ns-r3Gkvid"
             );
 
             alert("Mensaje enviado correctamente 🚀");
+            setFormData({ name: "", email: "", discipline: "", level: "", message: "" });
+            setTurnstileToken("");
 
-            setFormData({
-                name: "",
-                email: "",
-                discipline: "",
-                level: "",
-                message: ""
-            });
+            // Si quieres resetear el widget visualmente, lo ideal es guardar widgetId y llamar turnstile.reset(widgetId)
         } catch (error) {
             console.error("EmailJS error:", error);
             alert("Error al enviar el mensaje 😢");
@@ -163,6 +319,14 @@ export default function LandingPage() {
             setCarouselWidth(scrollWidth - offsetWidth);
         }
     }, []);
+    const handleTurnstileToken = useCallback((token) => {
+        setTurnstileToken(token);
+    }, []);
+
+    const handleTurnstileExpire = useCallback(() => {
+        setTurnstileToken("");
+    }, []);
+    console.log("TURNSTILE KEY:", import.meta.env.VITE_TURNSTILE_SITE_KEY);
 
     return (
         <div className="min-h-screen w-full bg-[#0b1220] flex flex-col overflow-x-hidden antialiased">
@@ -384,7 +548,7 @@ export default function LandingPage() {
 
                             <div className="relative z-10">
                                 <h3 className="text-2xl font-bold mb-4">
-                                    Misión – Club Deportivo TRICOOL
+                                    Misión
                                 </h3>
                                 <div className="text-gray-300 text-sm leading-relaxed text-justify space-y-2">
                                     <p>La misión del Club Deportivo TRICOOL es formar personas a través del deporte,
@@ -417,7 +581,7 @@ export default function LandingPage() {
 
                             <div className="relative z-10">
                                 <h3 className="text-2xl font-bold mb-4">
-                                    Visión – Club Deportivo TRICOOL
+                                    Visión
                                 </h3>
                                 <div className="text-gray-300 text-sm leading-relaxed text-justify space-y-2">
                                     <p>Ser un club deportivo referente a nivel regional y nacional
@@ -954,7 +1118,8 @@ export default function LandingPage() {
                                             <Phone size={16} className="text-blue-400" />
                                         </span>
                                         <span className="font-medium text-white">
-                                            +56 9 8888 3966
+                                            +56 9 8888 3966, Carlos Chamorro, Presidente del Club
+
                                         </span>
                                     </div>
 
@@ -1090,6 +1255,12 @@ export default function LandingPage() {
                                             className="w-full px-4 py-2.5 rounded-xl bg-[#0b122b] border border-white/10 text-sm text-white focus:outline-none focus:border-blue-500 resize-none"
                                         />
                                     </div>
+                                    <TurnstileWidget
+                                        siteKey={import.meta.env.VITE_TURNSTILE_SITE_KEY}
+                                        onToken={handleTurnstileToken}
+                                        onExpire={handleTurnstileExpire}
+                                    />
+
 
                                     <button
                                         type="submit"
@@ -1098,6 +1269,8 @@ export default function LandingPage() {
                                     >
                                         {loading ? "Enviando..." : "Enviar mensaje"}
                                     </button>
+
+
 
                                 </form>
                             </motion.div>
