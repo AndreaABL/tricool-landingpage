@@ -5,7 +5,7 @@ import { Zap, Star, Check, Waves, PersonStanding, Medal, GraduationCap, Baby, Ma
 import { useState, useRef } from "react";
 import emailjs from "emailjs-com";
 import { FaInstagram, FaWhatsapp, FaVolleyballBall } from "react-icons/fa";
-import { GiRunningShoe} from "react-icons/gi";
+import { GiRunningShoe } from "react-icons/gi";
 import logo from "./assets/logo-tricool.png";
 import gallery1 from "./assets/gallery-1.jpeg";
 import gallery2 from "./assets/gallery-2.jpeg";
@@ -206,7 +206,7 @@ export default function LandingPage() {
                                     <li><a href="#home">Inicio</a></li>
                                     <li><a href="#about">Conócenos</a></li>
                                     <li><a href="#coaches">Entrenadores</a></li>
-                                    <li><a href="#disciplines">Disciplinas</a></li>                    
+                                    <li><a href="#disciplines">Disciplinas</a></li>
                                     <li><a href="#contact">Contacto</a></li>
                                 </ul>
                             </div>
@@ -239,7 +239,7 @@ export default function LandingPage() {
                                     <li><a href="#about">Conócenos</a></li>
                                     <li><a href="#coaches">Entrenadores</a></li>
                                     <li><a href="#disciplines">Disciplinas</a></li>
-                                    
+
                                 </ul>
                             </div>
 
@@ -277,36 +277,40 @@ export default function LandingPage() {
                 <div className="absolute inset-0 bg-gradient-to-r from-[#0b122b] via-[#0b122b]/85 to-[#0b122b]/60" />
 
                 <div className="relative z-10 w-full max-w-[2560px] mx-auto
-          px-6 sm:px-10 xl:px-24 2xl:px-40
-          pt-32 pb-24
-          grid grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3
-          gap-16 items-center">
+  px-6 sm:px-10 xl:px-24 2xl:px-40
+  pt-32 pb-24
+  grid grid-cols-1
+  lg:grid-cols-2
+  2xl:grid-cols-1
+  gap-16
+  items-center">
 
-                    {/* LEFT */}
+                    {/* TEXT */}
                     <motion.div
-                        initial={{ opacity: 0, x: -40 }}
-                        animate={{ opacity: 1, x: 0 }}
+                        initial={{ opacity: 0, y: 30 }}
+                        animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.6 }}
                         className="text-center
-    lg:text-left
-    2xl:text-center
+  lg:text-left
+  2xl:text-center
 
-    mx-auto
-    lg:mx-0
-    2xl:mx-auto
+  mx-auto
+  lg:mx-0
+  2xl:mx-auto
 
-    max-w-xl
-    lg:max-w-2xl
-    2xl:max-w-4xl
-
-    2xl:col-span-3"
+  max-w-xl
+  lg:max-w-2xl
+  2xl:max-w-4xl"
                     >
-                        <span className="uppercase text-xm tracking-widest text-blue-400 font-bold">
+                        <span className="uppercase text-xs tracking-widest text-blue-400 font-bold">
                             Club Deportivo Tricool
                         </span>
 
                         <motion.h1
-                            className="mt-6 text-4xl sm:text-5xl md:text-6xl xl:text-7xl 2xl:text-8xl font-extrabold leading-tight font-display"
+                            className="mt-6
+        text-4xl sm:text-5xl md:text-6xl xl:text-7xl 2xl:text-8xl
+        font-extrabold leading-tight font-display
+      "
                             variants={sentence}
                             initial="hidden"
                             animate="visible"
@@ -330,73 +334,118 @@ export default function LandingPage() {
                             initial={{ opacity: 0, y: 20 }}
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true }}
-                            transition={{ duration: 0.6, ease: "easeOut" }}
-                            className="mt-6 sm:mt-8 text-gray-300 text-base sm:text-lg leading-relaxed font-sans"
+                            transition={{ duration: 0.6 }}
+                            className="
+        mt-6 sm:mt-8
+        text-gray-300
+        text-lg sm:text-xl
+        leading-relaxed
+      "
                         >
                             Encuentra tu entrenador, comienza un plan, imagina en quién te convertirás.
                         </motion.p>
                     </motion.div>
 
-                    {/* RIGHT */}
-                    <motion.div
-                        initial={{ opacity: 0, x: 40 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        transition={{ duration: 0.6 }}
-                        className="flex flex-col gap-10
-    mx-auto
-    lg:mx-0
-    2xl:mx-auto
 
-    max-w-xl
-    lg:max-w-2xl
-    2xl:max-w-4xl
-
-    2xl:col-span-3"
-                    >
-                        <div className="relative overflow-hidden rounded-3xl bg-white/5 backdrop-blur-xl border border-white/10 p-4 sm:p-5">
-                            <div className="absolute inset-0 flex items-center justify-center opacity-10 pointer-events-none">
-                                <Zap size={200} strokeWidth={1} />
-                            </div>
-                            <div className="relative z-10">
-                                <h3 className="text-2xl font-bold mb-4">Misión</h3>
-                                <motion.p
-                                    initial={{ opacity: 0, y: 15 }}
-                                    whileInView={{ opacity: 1, y: 0 }}
-                                    viewport={{ once: true }}
-                                    transition={{ duration: 0.5 }}
-                                    className="text-gray-300 text-sm leading-relaxed"
-                                >
-                                    Promover la formación integral de sus socios y deportistas, fomentando la práctica
-                                    del deporte en distintas disciplinas (triatlón, natación, running, ciclismo, voleibol y
-                                    aquellas que se incorporen en el futuro).
-                                </motion.p>
-                            </div>
-                        </div>
-
-                        <div className="relative overflow-hidden rounded-3xl bg-white/5 backdrop-blur-xl border border-white/10 p-4 sm:p-5">
-                            <div className="absolute inset-0 flex items-center justify-center opacity-10 pointer-events-none">
-                                <Star size={200} strokeWidth={1} />
-                            </div>
-                            <div className="relative z-10">
-                                <h3 className="text-2xl font-bold mb-4">Visión</h3>
-                                <motion.p
-                                    initial={{ opacity: 0, y: 15 }}
-                                    whileInView={{ opacity: 1, y: 0 }}
-                                    viewport={{ once: true }}
-                                    transition={{ duration: 0.5 }}
-                                    className="text-gray-300 text-sm leading-relaxed"
-                                >
-                                    Ser el club de triatlón referente en la región, desarrollando campeones con valores deportivos.
-                                </motion.p>
-                            </div>
-                        </div>
-                    </motion.div>
 
                 </div>
             </section>
+            {/* Mission & Vision */}
+            <section id="about" className="bg-[#0b122b] py-20 text-white">
+                <div className="max-w-[2560px] mx-auto px-6 sm:px-10 xl:px-24 2xl:px-40">
+
+                    {/* Header */}
+                    <motion.div
+                        initial={{ opacity: 0, y: 30 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.6 }}
+                        className="text-center mb-16"
+                    >
+                        <p className="text-blue-400 uppercase tracking-widest mb-4 font-bold">
+                            Nuestra Identidad
+                        </p>
+                        <h2 className="text-4xl md:text-5xl font-extrabold font-display">
+                            Misión & <span className="text-blue-500">Visión</span>
+                        </h2>
+                    </motion.div>
+
+                    {/* Cards */}
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+
+                        {/* MISION */}
+                        <motion.div
+                            initial={{ opacity: 0, y: 40 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ duration: 0.6 }}
+                            className="relative overflow-hidden rounded-3xl bg-white/5 backdrop-blur-xl border border-white/10 p-6"
+                        >
+                            <div className="absolute inset-0 flex items-center justify-center opacity-10 pointer-events-none">
+                                <Zap size={220} strokeWidth={1} />
+                            </div>
+
+                            <div className="relative z-10">
+                                <h3 className="text-2xl font-bold mb-4">
+                                    Misión – Club Deportivo TRICOOL
+                                </h3>
+                                <div className="text-gray-300 text-sm leading-relaxed text-justify space-y-2">
+                                    <p>La misión del Club Deportivo TRICOOL es formar personas a través del deporte,
+                                        promoviendo la actividad física, la vida saludable y el desarrollo integral
+                                        de niños, jóvenes y adultos, mediante programas deportivos formativos,
+                                        accesibles y de calidad, abiertos a personas de distintos niveles, edades
+                                        y experiencias deportivas.</p>
+                                    <p>Buscamos potenciar habilidades físicas, técnicas y valóricas, fomentando
+                                        principios como el respeto, la disciplina, el compromiso, el trabajo en equipo
+                                        y la superación personal, en un entorno seguro, cercano y familiar, donde cada
+                                        persona pueda desarrollarse a su propio ritmo.</p>
+                                    <p>TRICOOL se compromete a desarrollar sus disciplinas deportivas con responsabilidad,
+                                        proyección institucional y apego a la normativa federativa, contribuyendo activamente
+                                        al crecimiento del deporte local y nacional.</p>
+                                </div>
+                            </div>
+                        </motion.div>
+
+                        {/* VISION */}
+                        <motion.div
+                            initial={{ opacity: 0, y: 40 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ duration: 0.6, delay: 0.1 }}
+                            className="relative overflow-hidden rounded-3xl bg-white/5 backdrop-blur-xl border border-white/10 p-6"
+                        >
+                            <div className="absolute inset-0 flex items-center justify-center opacity-10 pointer-events-none">
+                                <Star size={220} strokeWidth={1} />
+                            </div>
+
+                            <div className="relative z-10">
+                                <h3 className="text-2xl font-bold mb-4">
+                                    Visión – Club Deportivo TRICOOL
+                                </h3>
+                                <div className="text-gray-300 text-sm leading-relaxed text-justify space-y-2">
+                                    <p>Ser un club deportivo referente a nivel regional y nacional
+                                        en la formación integral de deportistas, reconocido por su
+                                        compromiso con la vida saludable, la excelencia formativa y
+                                        el desarrollo humano a través del deporte.</p>
+                                    <p>Aspiramos a consolidar un proyecto deportivo sólido, inclusivo
+                                        y sustentable, con presencia en diversas disciplinas, vinculado a
+                                        las federaciones deportivas nacionales, y capaz de brindar
+                                        oportunidades de crecimiento deportivo y personal a niños,
+                                        jóvenes y adultos.</p>
+                                    <p>TRICOOL busca proyectarse como una comunidad deportiva que inspire,
+                                        forme y acompañe a sus deportistas y familias en un camino de
+                                        aprendizaje, superación y valores.</p>
+                                </div>
+                            </div>
+                        </motion.div>
+
+                    </div>
+                </div>
+            </section>
+
 
             {/* About */}
-            <section id="about" className="bg-[#0b122b] py-10 text-white">
+            <section className="bg-[#0b122b] py-10 text-white">
                 <div className="max-w-[2560px] mx-auto px-6 sm:px-10 xl:px-24 2xl:px-40">
                     <motion.p
                         initial={{ opacity: 0, y: 20 }}
