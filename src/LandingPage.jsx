@@ -362,9 +362,6 @@ export default function LandingPage() {
                         transition={{ duration: 0.6 }}
                         className="text-center mb-16"
                     >
-                        <p className="text-blue-400 uppercase tracking-widest mb-4 font-bold">
-                            Nuestra Identidad
-                        </p>
                         <h2 className="text-4xl md:text-5xl font-extrabold font-display">
                             Misión & <span className="text-blue-500">Visión</span>
                         </h2>
@@ -427,7 +424,7 @@ export default function LandingPage() {
                                         en la formación integral de deportistas, reconocido por su
                                         compromiso con la vida saludable, la excelencia formativa y
                                         el desarrollo humano a través del deporte.</p>
-                                    <p>Aspiramos a consolidar un proyecto deportivo sólido, inclusivo
+                                    <p>Aspiramos a consolidar un proyecto deportivo sólido, accesible
                                         y sustentable, con presencia en diversas disciplinas, vinculado a
                                         las federaciones deportivas nacionales, y capaz de brindar
                                         oportunidades de crecimiento deportivo y personal a niños,
