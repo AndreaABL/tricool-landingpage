@@ -29,7 +29,7 @@ import gallery19 from "./assets/gallery-19.jpeg";
 import gallery20 from "./assets/gallery-20.jpeg";
 
 import miguelOyarce from "./assets/coaches/miguel-oyarce.jpeg";
-
+import leonelCid from "./assets/coaches/leonel-cid.jpeg";
 import hero1 from "./assets/hero-1.jpeg";
 import hero2 from "./assets/hero-2.jpeg";
 
@@ -278,7 +278,7 @@ export default function LandingPage() {
         },
     };
     const coaches = [
-        { name: "Leonel Cid", role: "Entrenador Natación", },
+        { name: "Leonel Cid", role: "Entrenador Natación", photo: leonelCid},
         { name: "Arnaldo Muñoz", role: "Entrenador Triatlón", },
         { name: "Miguel Oyarce", role: "Entrenador Triatlón", photo: miguelOyarce },
         { name: "Hans Salas", role: "Entrenador Atletismo", },
