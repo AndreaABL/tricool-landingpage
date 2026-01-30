@@ -1,7 +1,10 @@
 import { motion } from "framer-motion";
 import { useEffect } from "react";
 import { DisciplineCard } from "./components/DisciplineCard";
-import { Zap, Star, Check, Waves, Medal, GraduationCap, Baby, Mail, Phone, MapPin, User } from "lucide-react";
+import {
+    Zap, Star, Check, Waves, Medal, GraduationCap, Baby, Mail, Phone, MapPin, User,
+    BookOpen, Video, FileText, Link2, Folder
+} from "lucide-react";
 import { useState, useRef, useCallback } from "react";
 import emailjs from "emailjs-com";
 import { FaInstagram, FaWhatsapp, FaVolleyballBall } from "react-icons/fa";
@@ -29,6 +32,8 @@ import gallery19 from "./assets/gallery-19.jpeg";
 import gallery20 from "./assets/gallery-20.jpeg";
 
 import miguelOyarce from "./assets/coaches/miguel-oyarce.jpeg";
+import leonelCid from "./assets/coaches/leonel-cid.jpeg";
+import hansSalas from "./assets/coaches/hans-salas.jpeg";
 
 import hero1 from "./assets/hero-1.jpeg";
 import hero2 from "./assets/hero-2.jpeg";
@@ -179,6 +184,75 @@ export default function LandingPage() {
         { label: "Atletas activos", value: 75, text: "150+" },
         { label: "Medallas ganadas", value: 60, text: "50+" },
     ];
+    // ========= EDUCATIONAL RESOURCES (Drive shortcuts) =========
+    // 1) Put your public/shared Drive folder link here:
+    const DRIVE_FOLDER_URL = "https://drive.google.com/drive/folders/XXXXXXXXXXXXXX";
+
+    // 2) Curate shortcuts (files or subfolders). Replace URLs with your Drive share links.
+    const resourceItems = [
+        {
+            title: "Guía de Inicio (PDF)",
+            description: "Cómo comenzar en TRICOOL, qué llevar, y primeras semanas.",
+            category: "Principiante",
+            type: "pdf",
+            url: "https://drive.google.com/file/d/XXXXXXXX/view",
+        },
+        {
+            title: "Videos Técnica Natación",
+            description: "Playlist de ejercicios de técnica y respiración.",
+            category: "Natación",
+            type: "video",
+            url: "https://drive.google.com/drive/folders/XXXXXXXX",
+        },
+        {
+            title: "Plan Running 5K (4 semanas)",
+            description: "Plan base para mejorar ritmo y consistencia.",
+            category: "Running",
+            type: "doc",
+            url: "https://drive.google.com/file/d/XXXXXXXX/view",
+        },
+        {
+            title: "Checklist Competencia (Triatlón)",
+            description: "Lista rápida para no olvidar nada el día de carrera.",
+            category: "Triatlón",
+            type: "doc",
+            url: "https://drive.google.com/file/d/XXXXXXXX/view",
+        },
+        {
+            title: "Recursos Avanzados",
+            description: "Material extra: fuerza, periodización y métricas.",
+            category: "Avanzado",
+            type: "folder",
+            url: "https://drive.google.com/drive/folders/XXXXXXXX",
+        },
+    ];
+
+    const resourceCategories = ["Todos", ...Array.from(new Set(resourceItems.map(r => r.category)))];
+
+    const iconByType = {
+        pdf: FileText,
+        doc: BookOpen,
+        video: Video,
+        folder: Folder,
+        link: Link2,
+    };
+
+    // UI state
+    const [resourceQuery, setResourceQuery] = useState("");
+    const [resourceCategory, setResourceCategory] = useState("Todos");
+
+    const filteredResources = resourceItems.filter((r) => {
+        const matchesCategory = resourceCategory === "Todos" || r.category === resourceCategory;
+        const q = resourceQuery.trim().toLowerCase();
+        const matchesQuery =
+            !q ||
+            r.title.toLowerCase().includes(q) ||
+            r.description.toLowerCase().includes(q) ||
+            r.category.toLowerCase().includes(q);
+
+        return matchesCategory && matchesQuery;
+    });
+
 
     const heroImages = [hero1, hero2];
     const [heroIndex, setHeroIndex] = useState(0);
@@ -278,10 +352,10 @@ export default function LandingPage() {
         },
     };
     const coaches = [
-        { name: "Leonel Cid", role: "Entrenador Natación", },
+        { name: "Leonel Cid", role: "Entrenador Natación", photo: leonelCid},
         { name: "Arnaldo Muñoz", role: "Entrenador Triatlón", },
         { name: "Miguel Oyarce", role: "Entrenador Triatlón", photo: miguelOyarce },
-        { name: "Hans Salas", role: "Entrenador Atletismo", },
+        { name: "Hans Salas", role: "Entrenador Atletismo", photo: hansSalas },
         { name: "René Morales", role: "Entrenador de Voleibol", },
     ];
 
@@ -371,6 +445,7 @@ export default function LandingPage() {
                                     <li><a href="#about">Conócenos</a></li>
                                     <li><a href="#coaches">Entrenadores</a></li>
                                     <li><a href="#disciplines">Disciplinas</a></li>
+                                    <li><a href="#resources">Documentación</a></li>
                                     <li><a href="#contact">Contacto</a></li>
                                 </ul>
                             </div>
@@ -403,6 +478,7 @@ export default function LandingPage() {
                                     <li><a href="#about">Conócenos</a></li>
                                     <li><a href="#coaches">Entrenadores</a></li>
                                     <li><a href="#disciplines">Disciplinas</a></li>
+                                    <li><a href="#resources">Documentación</a></li>
 
                                 </ul>
                             </div>
@@ -1054,8 +1130,6 @@ export default function LandingPage() {
                     </div>
                 </div>
             </section>
-
-
             {/* Contact */}
             <section
                 id="contact"
