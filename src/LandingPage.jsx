@@ -32,8 +32,6 @@ import gallery19 from "./assets/gallery-19.jpeg";
 import gallery20 from "./assets/gallery-20.jpeg";
 
 import miguelOyarce from "./assets/coaches/miguel-oyarce.jpeg";
-import leonelCid from "./assets/coaches/leonel-cid.jpeg";
-import hansSalas from "./assets/coaches/hans-salas.jpeg";
 
 import hero1 from "./assets/hero-1.jpeg";
 import hero2 from "./assets/hero-2.jpeg";
