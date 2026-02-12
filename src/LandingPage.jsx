@@ -1,12 +1,8 @@
 import { motion } from "framer-motion";
-import { useEffect } from "react";
 import { DisciplineCard } from "./components/DisciplineCard";
-import {
-    Zap, Star, Check, Waves, Medal, GraduationCap, Baby, Mail, Phone, MapPin, User,
-    BookOpen, Video, FileText, Link2, Folder
-} from "lucide-react";
-import { useState, useRef, useCallback } from "react";
-import emailjs from "emailjs-com";
+import { Zap, Star, Check, Waves, Medal, GraduationCap, Baby, Mail, Phone, MapPin, User } from "lucide-react";
+import { useEffect, useState, useRef, useCallback } from "react";
+import emailjs from "@emailjs/browser";
 import { FaInstagram, FaWhatsapp, FaVolleyballBall } from "react-icons/fa";
 import { GiRunningShoe } from "react-icons/gi";
 import logo from "./assets/logo-tricool.png";
@@ -39,106 +35,111 @@ import hero1 from "./assets/hero-1.jpeg";
 import hero2 from "./assets/hero-2.jpeg";
 
 
-function TurnstileWidget({ siteKey, onToken, onExpire, theme = "auto" }) {
+function TurnstileWidget({
+    siteKey,
+    onToken,
+    onExpire,
+    theme = "auto",
+    onReadyReset, // entrega un reset() al padre
+}) {
     const containerRef = useRef(null);
     const widgetIdRef = useRef(null);
+    const scriptLoadedRef = useRef(false);
     const [status, setStatus] = useState({ type: "idle", msg: "" });
+
+    const loadScript = useCallback(() => {
+        return new Promise((resolve, reject) => {
+            if (window.turnstile) return resolve(true);
+
+            // evita insertar el script múltiples veces
+            const existing = document.querySelector('script[data-cf-turnstile="true"]');
+            if (existing) {
+                existing.addEventListener("load", () => resolve(true));
+                existing.addEventListener("error", reject);
+                return;
+            }
+
+            const s = document.createElement("script");
+            s.src = "https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit";
+            s.async = true;
+            s.defer = true;
+            s.dataset.cfTurnstile = "true";
+            s.onload = () => resolve(true);
+            s.onerror = () => reject(new Error("No se pudo cargar Turnstile."));
+            document.body.appendChild(s);
+        });
+    }, []);
 
     useEffect(() => {
         let cancelled = false;
 
-        if (!siteKey) {
-            setStatus({
-                type: "error",
-                msg:
-                    "Falta VITE_TURNSTILE_SITE_KEY. Crea un archivo .env en la raíz (junto a package.json) y reinicia npm run dev.",
-            });
-            return;
-        }
+        const mount = async () => {
+            if (!siteKey) {
+                setStatus({ type: "error", msg: "Falta VITE_TURNSTILE_SITE_KEY en tus variables de entorno." });
+                return;
+            }
 
-        const ensureScript = () =>
-            new Promise((resolve, reject) => {
-                if (window.turnstile) return resolve();
+            setStatus({ type: "loading", msg: "Cargando captcha…" });
 
-                const src =
-                    "https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit";
-                const existing = document.querySelector(`script[src="${src}"]`);
-
-                if (existing) {
-                    existing.addEventListener("load", resolve, { once: true });
-                    existing.addEventListener("error", reject, { once: true });
-                    return;
-                }
-
-                const script = document.createElement("script");
-                script.src = src;
-                script.async = true;
-                script.defer = true;
-                script.onload = resolve;
-                script.onerror = reject;
-                document.body.appendChild(script);
-            });
-
-        (async () => {
             try {
-                setStatus({ type: "loading", msg: "Cargando captcha..." });
-                await ensureScript();
+                await loadScript();
                 if (cancelled) return;
 
                 if (!containerRef.current) return;
+                // Limpia por si React re-monta el componente
+                containerRef.current.innerHTML = "";
 
-                if (window.turnstile && widgetIdRef.current !== null) {
-                    window.turnstile.remove(widgetIdRef.current);
-                    widgetIdRef.current = null;
-                }
-
-                widgetIdRef.current = window.turnstile.render(containerRef.current, {
+                const id = window.turnstile.render(containerRef.current, {
                     sitekey: siteKey,
                     theme,
                     callback: (token) => {
                         onToken?.(token);
-                        setStatus({ type: "ok", msg: "" });
+                        setStatus({ type: "idle", msg: "" });
                     },
                     "expired-callback": () => {
-                        onToken?.("");
                         onExpire?.();
+                        setStatus({ type: "idle", msg: "" });
                     },
                     "error-callback": () => {
-                        onToken?.("");
+                        onExpire?.();
                         setStatus({
                             type: "error",
-                            msg:
-                                "Turnstile error. Revisa si tu site key permite localhost o usa testing keys.",
+                            msg: "Turnstile falló al inicializar. Revisa tu dominio permitido en Cloudflare y la Site Key.",
                         });
                     },
                 });
 
+                widgetIdRef.current = id;
+
+                onReadyReset?.(() => {
+                    if (window.turnstile && widgetIdRef.current !== null) {
+                        window.turnstile.reset(widgetIdRef.current);
+                    }
+                });
+
                 setStatus({ type: "idle", msg: "" });
             } catch (e) {
-                console.error("Turnstile load/render error:", e);
-                setStatus({
-                    type: "error",
-                    msg:
-                        "No se pudo cargar Turnstile. Revisa tu conexión o bloqueadores (adblock) y la consola.",
-                });
+                if (cancelled) return;
+                setStatus({ type: "error", msg: e?.message || "Error cargando Turnstile." });
             }
-        })();
+        };
+
+        mount();
 
         return () => {
             cancelled = true;
-            if (window.turnstile && widgetIdRef.current !== null) {
-                window.turnstile.remove(widgetIdRef.current);
-            }
-            widgetIdRef.current = null;
+            // Limpieza segura
+            try {
+                if (window.turnstile && widgetIdRef.current !== null) {
+                    window.turnstile.remove(widgetIdRef.current);
+                }
+            } catch { }
         };
-    }, [siteKey, theme]);
+    }, [siteKey, theme, onToken, onExpire, onReadyReset, loadScript]);
 
     return (
         <div className="mt-4">
-            <div
-                className="min-h-[70px] flex justify-center items-center"
-                ref={containerRef}
-            />
+            <div className="min-h-[70px] flex justify-center items-center" ref={containerRef} />
             {status.type === "loading" && (
                 <div className="text-xs text-gray-400 text-center mt-2">{status.msg}</div>
             )}
@@ -154,31 +155,12 @@ function TurnstileWidget({ siteKey, onToken, onExpire, theme = "auto" }) {
 
 
 
+
+
 export default function LandingPage() {
     const [turnstileToken, setTurnstileToken] = useState("");
+    const turnstileResetRef = useRef(null);
 
-    useEffect(() => {
-        // Callbacks globales (Turnstile los llama por nombre)
-        window.onTurnstileSuccess = (token) => setTurnstileToken(token);
-        window.onTurnstileExpired = () => setTurnstileToken("");
-
-        // Inyecta el script si no existe
-        const src = "https://challenges.cloudflare.com/turnstile/v0/api.js";
-        const already = document.querySelector(`script[src="${src}"]`);
-        if (already) return;
-
-        const s = document.createElement("script");
-        s.src = src;
-        s.async = true;
-        s.defer = true;
-        document.body.appendChild(s);
-
-        return () => {
-            // opcional: limpiar callbacks
-            delete window.onTurnstileSuccess;
-            delete window.onTurnstileExpired;
-        };
-    }, []);
     const stats = [
         { label: "Años de experiencia", value: 90, text: "10+" },
         { label: "Atletas activos", value: 75, text: "150+" },
@@ -212,8 +194,6 @@ export default function LandingPage() {
             [e.target.name]: e.target.value
         });
     };
-
-
     const handleSubmit = async (e) => {
         e.preventDefault();
 
@@ -224,46 +204,43 @@ export default function LandingPage() {
 
         setLoading(true);
 
-        const sentAt = new Intl.DateTimeFormat("es-CL", {
-            timeZone: "America/Santiago",
-            year: "numeric",
-            month: "2-digit",
-            day: "2-digit",
-            hour: "2-digit",
-            minute: "2-digit",
-            second: "2-digit",
-        }).format(new Date());
-
         try {
             await emailjs.send(
-                "service_k0k8qkq",
-                "template_todnffx",
+                import.meta.env.VITE_EMAILJS_SERVICE_ID,
+                import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
                 {
                     name: formData.name,
                     reply_to: formData.email,
                     discipline: formData.discipline,
                     level: formData.level,
                     message: formData.message,
-                    sent_at: sentAt,
-
-                    // opcional: se envía como dato, NO se verifica con EmailJS
-                    turnstile_token: turnstileToken,
+                    turnstile_token: turnstileToken, // optional but recommended
                 },
-                "mAP4MA4ns-r3Gkvid"
+                import.meta.env.VITE_EMAILJS_PUBLIC_KEY
             );
 
             alert("Mensaje enviado correctamente 🚀");
-            setFormData({ name: "", email: "", discipline: "", level: "", message: "" });
-            setTurnstileToken("");
 
-            // Si quieres resetear el widget visualmente, lo ideal es guardar widgetId y llamar turnstile.reset(widgetId)
+            setFormData({
+                name: "",
+                email: "",
+                discipline: "",
+                level: "",
+                message: "",
+            });
+
+            setTurnstileToken("");
+            turnstileResetRef.current?.(); // resets the widget UI
         } catch (error) {
             console.error("EmailJS error:", error);
-            alert("Error al enviar el mensaje 😢");
+            alert("Error enviando el mensaje 😢");
         } finally {
             setLoading(false);
         }
     };
+
+
+
     const sentence = {
         hidden: { opacity: 1 },
         visible: {
@@ -283,7 +260,7 @@ export default function LandingPage() {
         },
     };
     const coaches = [
-        { name: "Leonel Cid", role: "Entrenador Natación", photo: leonelCid},
+        { name: "Leonel Cid", role: "Entrenador Natación", photo: leonelCid },
         //{ name: "Arnaldo Muñoz", role: "Entrenador Triatlón", },
         { name: "Miguel Oyarce", role: "Entrenador Triatlón", photo: miguelOyarce },
         { name: "Hans Salas", role: "Entrenador Atletismo", photo: hansSalas },
@@ -331,6 +308,10 @@ export default function LandingPage() {
     const handleTurnstileExpire = useCallback(() => {
         setTurnstileToken("");
     }, []);
+    const handleTurnstileReadyReset = useCallback((reset) => {
+        turnstileResetRef.current = reset;
+    }, []);
+
     console.log("TURNSTILE KEY:", import.meta.env.VITE_TURNSTILE_SITE_KEY);
 
     return (
@@ -1271,8 +1252,8 @@ export default function LandingPage() {
                                         siteKey={import.meta.env.VITE_TURNSTILE_SITE_KEY}
                                         onToken={handleTurnstileToken}
                                         onExpire={handleTurnstileExpire}
+                                        onReadyReset={handleTurnstileReadyReset}
                                     />
-
 
                                     <button
                                         type="submit"
@@ -1311,7 +1292,7 @@ export default function LandingPage() {
 
                     {/* Copyright */}
                     <p className="text-xs text-center text-gray-500">
-                        © 2026 Tricool Club de Triatlón. Todos los derechos reservados.
+                        © 2026 Club Deportivo Tricool. Todos los derechos reservados.
                     </p>
 
                 </div>
